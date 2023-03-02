@@ -1,10 +1,10 @@
-package mru.game.view;
+package mru.store.view;
 
 import java.util.Scanner;
 
 public class AppMenu {
 
-	Scanner input;
+	private Scanner input;
 	private int serialNumber;
 	private String toyName;
 	private String toyBrand;
@@ -26,8 +26,7 @@ public class AppMenu {
 				+ "(1) Search inventory and purchase toy \n"
 				+ "(2) Add a new toy \n"
 				+ "(3) Remove a toy \n"
-				+ "(4) Make a gift suggestion \n"
-				+ "(5) Save and exit \n"
+				+ "(4) Save and exit \n"
 				+ "\n"
 				+ "Please enter a number: ");
 		int choice = input.nextInt();
@@ -42,9 +41,6 @@ public class AppMenu {
 			removeToy();
 			break;
 		case 4:
-			giftSuggestion();
-			break;
-		case 5:
 			saveExit();
 			break;
 		default:
@@ -88,10 +84,20 @@ public class AppMenu {
 	}
 	
 	public void addToy() {
+		serialNumber = -1;
+		toyName = null;
+		toyBrand = null;
+		toyPrice = -1;
+		availableCount = -1;
+		appropriateAge = -1;
+		minimumPlayers = -1;
+		maximumPlayers = -1;
+		designerNames = null;
+		
 		System.out.println("Enter serial number: ");
 		do {
 			serialNumber = input.nextInt();
-		} while (serialNumber == 0);
+		} while (serialNumber == -1);
 		
 		System.out.println("Enter toy name: ");
 		do {
@@ -106,27 +112,27 @@ public class AppMenu {
 		System.out.println("Enter toy price: ");
 		do {
 			toyPrice = input.nextDouble();
-		} while (toyPrice == 0);
+		} while (toyPrice == -1);
 		
 		System.out.println("Enter available count: ");
 		do {
 			availableCount = input.nextInt();
-		} while (availableCount == 0);
+		} while (availableCount == -1);
 		
 		System.out.println("Enter appropriate age: ");
 		do {
 			appropriateAge = input.nextInt();
-		} while (appropriateAge == 0);
+		} while (appropriateAge == -1);
 		
 		System.out.println("Enter minimum number of players: ");
 		do {
 			minimumPlayers = input.nextInt();
-		} while (minimumPlayers == 0);
+		} while (minimumPlayers == -1);
 		
 		System.out.println("Enter maximum number of players: ");
 		do {
 			maximumPlayers = input.nextInt();
-		} while (maximumPlayers == 0);
+		} while (maximumPlayers == -1);
 		
 		System.out.println("Enter designer names (Use ',' to separate)");
 		do {
@@ -137,19 +143,17 @@ public class AppMenu {
 	}
 	
 	public void removeToy() {
+		serialNumber = -1;
 		System.out.println("Enter serial number: ");
-		serialNumber = input.nextInt();
-		
+		do {
+			serialNumber = input.nextInt();
+		} while (serialNumber == -1);
 //		if serialNumber is found
 //		System.out.println("toy info");
 //		System.out.println("Do you want to remove it? (Y/N): ");
 //		switch case with y/n
 //		else
 //		System.out.println("Item not found!);
-	}
-	
-	public void giftSuggestion() {
-		
 	}
 	
 	public void saveExit() {
