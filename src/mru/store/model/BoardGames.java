@@ -37,4 +37,15 @@ public class BoardGames extends Toy{
 			   "\nBoard Game Designers: " + boardGameDesigners;
 	}
 	
+	@Override
+	public String format() {
+		return serialNumber + ";" 
+			 + toyName + ";" 
+			 + toyBrand + ";" 
+			 + toyPrice + ";" 
+			 + availableCount + ";" 
+			 + appropriateAge + ";"
+			 + boardGamePlayerCount + ";"
+			 + boardGameDesigners;
+	}
 }

@@ -63,5 +63,14 @@ public abstract class Toy {
 			   "\nAvailable Count: " + availableCount +
 			   "\nAppropriate Age: " + appropriateAge;
 	}
+
+	public String format() {
+		return serialNumber + ";" 
+			 + toyName + ";" 
+			 + toyBrand + ";" 
+			 + toyPrice + ";" 
+			 + availableCount + ";" 
+			 + appropriateAge;
+	}
 	
 }

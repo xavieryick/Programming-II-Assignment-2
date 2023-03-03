@@ -27,4 +27,14 @@ public class Figures extends Toy {
 			   "\nClassification: " + figureClassification;
 	}
 	
+	@Override
+	public String format() {
+		return serialNumber + ";" 
+			 + toyName + ";" 
+			 + toyBrand + ";" 
+			 + toyPrice + ";" 
+			 + availableCount + ";" 
+			 + appropriateAge + ";"
+			 + figureClassification;
+	}
 }

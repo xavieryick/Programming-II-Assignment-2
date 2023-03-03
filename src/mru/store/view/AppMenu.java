@@ -2,10 +2,12 @@ package mru.store.view;
 
 import java.util.Scanner;
 
+import mru.store.model.Toy;
+
 public class AppMenu {
 
 	private Scanner input;
-	private int serialNumber;
+	private long serialNumber;
 	private String toyName;
 	private String toyBrand;
 	private double toyPrice;
@@ -14,6 +16,10 @@ public class AppMenu {
 	private int minimumPlayers;
 	private int maximumPlayers;
 	private String designerNames;
+	private String figureClassification;
+	private String animalMaterial;
+	private String animalSize;
+	private String puzzleType;
 	
 	public AppMenu() {
 		input = new Scanner(System.in);
@@ -41,7 +47,7 @@ public class AppMenu {
 			removeToy();
 			break;
 		case 4:
-			saveExit();
+			save();
 			break;
 		default:
 			System.out.println("Invalid input!");
@@ -63,15 +69,18 @@ public class AppMenu {
 		switch (choice) {
 		case 1:
 			System.out.println("Please enter a serial number: ");
-//			do something with this
+			int searchSerialNumber = input.nextInt();
+			searchBySerialNumber(searchSerialNumber);
 			break;
 		case 2:
 			System.out.println("Please enter a toy name: ");
-//			do something with this
+			String searchToyName = input.nextLine();
+			searchByToyName(searchToyName);
 			break;
 		case 3:
 			System.out.println("Please enter a toy type: ");
-//			do something with this
+			String searchToyType = input.nextLine();
+			searchByToyType(searchToyType);
 			break;
 		case 4:
 			mainMenu();
@@ -83,21 +92,40 @@ public class AppMenu {
 		}		
 	}
 	
+	private void searchBySerialNumber(int searchSerialNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void searchByToyName(String searchToyName) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void searchByToyType(String searchToyType) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void addToy() {
-		serialNumber = -1;
+		serialNumber = 0;
 		toyName = null;
 		toyBrand = null;
-		toyPrice = -1;
-		availableCount = -1;
-		appropriateAge = -1;
-		minimumPlayers = -1;
-		maximumPlayers = -1;
+		toyPrice = 0;
+		availableCount = 0;
+		appropriateAge = 0;
+		minimumPlayers = 0;
+		maximumPlayers = 0;
 		designerNames = null;
+		figureClassification = null;
+		animalMaterial = null;
+		animalSize = null;
+		puzzleType = null;
 		
 		System.out.println("Enter serial number: ");
 		do {
-			serialNumber = input.nextInt();
-		} while (serialNumber == -1);
+			serialNumber = input.nextLong();
+		} while (serialNumber <= 0);
 		
 		System.out.println("Enter toy name: ");
 		do {
@@ -112,33 +140,84 @@ public class AppMenu {
 		System.out.println("Enter toy price: ");
 		do {
 			toyPrice = input.nextDouble();
-		} while (toyPrice == -1);
+		} while (toyPrice <= 0);
 		
 		System.out.println("Enter available count: ");
 		do {
 			availableCount = input.nextInt();
-		} while (availableCount == -1);
+		} while (availableCount <= 0);
 		
 		System.out.println("Enter appropriate age: ");
 		do {
 			appropriateAge = input.nextInt();
-		} while (appropriateAge == -1);
+		} while (appropriateAge <= 0);
 		
-		System.out.println("Enter minimum number of players: ");
-		do {
-			minimumPlayers = input.nextInt();
-		} while (minimumPlayers == -1);
+		//figure
+		if (serialNumber <= 0000000000L && serialNumber <= 1999999999L) {
+			System.out.println("Enter figure classification \n"
+					+ "A) Action \n"
+					+ "D) Doll \n"
+					+ "H) Historic \n"
+					+ "Enter a letter: ");
+			do {
+				figureClassification = input.nextLine();
+			} while (figureClassification != "A" && 
+				 figureClassification != "D" && 
+				 figureClassification != "H");
+		}
 		
-		System.out.println("Enter maximum number of players: ");
-		do {
-			maximumPlayers = input.nextInt();
-		} while (maximumPlayers == -1);
+		//animal
+		if (serialNumber <= 2000000000L && serialNumber <= 3999999999L) {
+			System.out.println("Enter animal material: ");
+			do {
+				animalMaterial = input.nextLine();
+			} while (animalMaterial == null);	
+			
+			System.out.println("Enter animal size \n"
+					+ "S) Small \n"
+					+ "M) Medium \n"
+					+ "L) Large \n"
+					+ "Enter a letter: ");
+			do {
+				animalSize = input.nextLine();
+			} while (animalSize != "S" && 
+					animalSize != "M" && 
+					animalSize != "L");
+		}
 		
-		System.out.println("Enter designer names (Use ',' to separate)");
-		do {
-			designerNames = input.nextLine();
-		} while (designerNames == null);
+		// puzzle
+		if (serialNumber <= 4000000000L && serialNumber <= 6999999999L) {
+			System.out.println("Enter puzzle type \n"
+					+ "M) Mechanical \n"
+					+ "C) Cryptic \n"
+					+ "L) Logic \n"
+					+ "T) Trivia \n "
+					+ "R) Riddle \n"
+					+ "Enter a letter: ");
+			do {
+				puzzleType = input.nextLine();
+			} 	while (puzzleType != "M" &&
+				   puzzleType != "C" &&
+				   puzzleType != "L" &&
+				   puzzleType != "T" &&
+				   puzzleType != "R");
+		}
 		
+		//board games
+		if (serialNumber <= 7000000000L && serialNumber <= 9999999999L) {
+			System.out.println("Enter minimum number of players: ");
+			do {
+				minimumPlayers = input.nextInt();
+			} while (minimumPlayers == 0);
+			System.out.println("Enter maximum number of players: ");
+			do {
+				maximumPlayers = input.nextInt();
+			} while (maximumPlayers == 0 && maximumPlayers < minimumPlayers);
+			System.out.println("Enter designer names (Use ',' to separate): ");
+			do {
+				designerNames = input.nextLine();
+			} while (designerNames == null);
+		}
 		System.out.println("New toy added!");
 	}
 	
@@ -147,16 +226,12 @@ public class AppMenu {
 		System.out.println("Enter serial number: ");
 		do {
 			serialNumber = input.nextInt();
-		} while (serialNumber == -1);
+		} while (serialNumber <= 0);
 //		if serialNumber is found
 //		System.out.println("toy info");
 //		System.out.println("Do you want to remove it? (Y/N): ");
 //		switch case with y/n
 //		else
 //		System.out.println("Item not found!);
-	}
-	
-	public void saveExit() {
-		
 	}
 }

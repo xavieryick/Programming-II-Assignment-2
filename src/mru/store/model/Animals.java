@@ -37,4 +37,15 @@ public class Animals extends Toy{
 			   "\nAnimal Size: " + animalSize;
 	}
 	
+	@Override
+	public String format() {
+		return serialNumber + ";" 
+			 + toyName + ";" 
+			 + toyBrand + ";" 
+			 + toyPrice + ";" 
+			 + availableCount + ";" 
+			 + appropriateAge + ";"
+			 + animalMaterial + ";"
+			 + animalSize;
+	}
 }

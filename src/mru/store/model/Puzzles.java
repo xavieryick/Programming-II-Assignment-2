@@ -27,4 +27,14 @@ public class Puzzles extends Toy{
 			   "\nPuzzle Type: " + puzzleType; 
 	}
 	
+	@Override
+	public String format() {
+		return serialNumber + ";" 
+			 + toyName + ";" 
+			 + toyBrand + ";" 
+			 + toyPrice + ";" 
+			 + availableCount + ";" 
+			 + appropriateAge + ";"
+			 + puzzleType;
+	}
 }
