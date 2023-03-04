@@ -45,7 +45,8 @@ public class StoreManager {
 				
 				long serialNumber = Integer.parseInt(splitLine[0]);
 				if (serialNumber >= 000000000L && serialNumber <= 1999999999L) {
-					
+					//toys are based on first two numbers in serial numbers 
+					//read index 0 
 				}
 				else if (serialNumber >= 2000000000L && serialNumber <= 3999999999L) {
 					

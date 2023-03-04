@@ -21,6 +21,9 @@ public class AppMenu {
 	private String animalSize;
 	private String puzzleType;
 	
+	private String serialNumberCheck;	//for SN check
+	private boolean firstRun = true;	// not sure if i can leave them up here
+	
 	public AppMenu() {
 		input = new Scanner(System.in);
 	}
@@ -68,8 +71,18 @@ public class AppMenu {
 		int choice = input.nextInt();
 		switch (choice) {
 		case 1:
-			System.out.println("Please enter a serial number: ");
-			long searchSerialNumber = input.nextLong();
+			//vars for sn check and boolean are located above
+			do {
+				if (!firstRun) {
+					System.out.println("Invalid input! Serial numbers are ten digits long!");
+				}
+				System.out.println("Enter a serial number here: ");
+				serialNumberCheck = input.nextLine();
+				firstRun = false;
+				
+			}while (serialNumberCheck.length() != 10);
+			
+			long searchSerialNumber = Long.parseLong(serialNumberCheck);
 			searchBySerialNumber(searchSerialNumber);
 			break;
 		case 2:
@@ -94,6 +107,14 @@ public class AppMenu {
 	
 	private void searchBySerialNumber(long searchSerialNumber) {
 		// TODO Auto-generated method stub
+		
+		// SN has 10 digits 
+		
+		// serial number has already been validated at this point 
+		// convert to String 
+		// https://www.baeldung.com/java-number-of-digits-in-int
+		
+		// if string.length == 10
 		
 	}
 	
