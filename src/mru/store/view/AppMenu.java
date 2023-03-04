@@ -69,7 +69,7 @@ public class AppMenu {
 		switch (choice) {
 		case 1:
 			System.out.println("Please enter a serial number: ");
-			int searchSerialNumber = input.nextInt();
+			long searchSerialNumber = input.nextLong();
 			searchBySerialNumber(searchSerialNumber);
 			break;
 		case 2:
@@ -92,7 +92,7 @@ public class AppMenu {
 		}		
 	}
 	
-	private void searchBySerialNumber(int searchSerialNumber) {
+	private void searchBySerialNumber(long searchSerialNumber) {
 		// TODO Auto-generated method stub
 		
 	}
