@@ -2,14 +2,14 @@ package mru.store.model;
 
 public abstract class Toy {
 	
-	public int serialNumber;
+	public long serialNumber;
 	public String toyName;
 	public String toyBrand;
 	public double toyPrice;
 	public int availableCount;
 	public int appropriateAge;
 	
-	public Toy(int serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge) {
+	public Toy(long serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge) {
 		this.serialNumber = serialNumber;
 		this.toyName = toyName;
 		this.toyBrand = toyBrand;
@@ -21,7 +21,7 @@ public abstract class Toy {
 	public void setSerialNumber(int serialNumber) {
 		this.serialNumber = serialNumber;
 	}
-	public int getSerialNumber() {
+	public long getSerialNumber() {
 		return serialNumber;
 	}
 	public void setToyName(String toyName) {

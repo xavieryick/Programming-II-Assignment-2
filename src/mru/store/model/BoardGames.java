@@ -2,22 +2,38 @@ package mru.store.model;
 
 public class BoardGames extends Toy{
 
-	private int boardGamePlayerCount;
+//	private int minimumPlayerCount;
+//	private int maxPlayerCount;
+	private String playerCountRange;
 	private String boardGameDesigners;
 	
-	public BoardGames(int serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, int boardGamePlayerCount, String boardGameDesigners) {
+	public BoardGames(long serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, String playerCountRange, String boardGameDesigners) {
 		super(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge);
-		this.boardGamePlayerCount = boardGamePlayerCount;
+//		this.minimumPlayerCount = minimumPlayerCount;
+//		this.maxPlayerCount = maxPlayerCount;
+		this.playerCountRange = playerCountRange;
 		this.boardGameDesigners = boardGameDesigners;
 	}
 	
-	public void setBoardGamePlayerCount(int boardGamePlayerCount) {
-		this.boardGamePlayerCount = boardGamePlayerCount;
+	public void setPlayerCountRange(String playerCountRange) {
+		this.playerCountRange = playerCountRange;
 	}
-	public int getBoardGamePlayerCount() {
-		return boardGamePlayerCount;
+	public String getPlayerCountRange() {
+		return playerCountRange;
 	}
 	
+//	public void setMinimumPlayerCount(int minimumPlayerCount) {
+//		this.minimumPlayerCount = minimumPlayerCount;
+//	}
+//	public int getMinimumPlayerCount() {
+//		return minimumPlayerCount;
+//	}
+//	public void setMaxPlayerCount(int maxPlayerCount) {
+//		this.maxPlayerCount = maxPlayerCount;
+//	}
+//	public int getMaxPlayerCount() {
+//		return maxPlayerCount;
+//	}
 	public void setBoardGameDesigners(String boardGameDesigners) {
 		this.boardGameDesigners = boardGameDesigners;
 	}
@@ -33,7 +49,9 @@ public class BoardGames extends Toy{
 			   "\nPrice: " + toyPrice + 
 			   "\nAvailable Count: " + availableCount +
 			   "\nAppropriate Age: " + appropriateAge + 
-			   "\nBoard Game Player Count: " + boardGamePlayerCount +
+//			   "\nMinimum Player Count: " + minimumPlayerCount +
+//			   "\nMaximum Player Count: " + maxPlayerCount +
+			   "\nRecommended Players" + playerCountRange +
 			   "\nBoard Game Designers: " + boardGameDesigners;
 	}
 	
@@ -45,7 +63,9 @@ public class BoardGames extends Toy{
 			 + toyPrice + ";" 
 			 + availableCount + ";" 
 			 + appropriateAge + ";"
-			 + boardGamePlayerCount + ";"
+//			 + minimumPlayerCount + ";"
+//			 + maxPlayerCount + ";"
+			 + playerCountRange + ";"
 			 + boardGameDesigners;
 	}
 }

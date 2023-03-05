@@ -13,8 +13,11 @@ public class AppMenu {
 	private double toyPrice;
 	private int availableCount;
 	private int appropriateAge;
+	
+	//Change this to a string that takes a player range
 	private int minimumPlayers;
 	private int maximumPlayers;
+	
 	private String designerNames;
 	private String figureClassification;
 	private String animalMaterial;
@@ -158,6 +161,7 @@ public class AppMenu {
 			toyBrand = input.nextLine();
 		} while (toyBrand == null);
 		
+		//INSERT TRY AND CATCH HERE FOR PRICE
 		System.out.println("Enter toy price: ");
 		do {
 			toyPrice = input.nextDouble();
@@ -225,6 +229,10 @@ public class AppMenu {
 		}
 		
 		//board games
+		//for exception: https://www.baeldung.com/java-new-custom-exception
+		//if (player count problem) 
+		//throw new CustomException(error message)
+		
 		if (serialNumber <= 7000000000L && serialNumber <= 9999999999L) {
 			System.out.println("Enter minimum number of players: ");
 			do {
