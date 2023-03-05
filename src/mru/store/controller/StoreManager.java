@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import mru.game.model.Player;
+
 import mru.store.model.Toy;
 import mru.store.view.AppMenu;
 
