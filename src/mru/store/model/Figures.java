@@ -4,7 +4,7 @@ public class Figures extends Toy {
 
 	private String figureClassification;
 
-	public Figures(long serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, String figureClassification) {
+	public Figures(String serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, String figureClassification) {
 		super(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge);
 		this.figureClassification = figureClassification;
 	}

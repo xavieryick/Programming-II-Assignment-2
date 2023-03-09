@@ -5,7 +5,7 @@ public class Animals extends Toy{
 	private String animalSize;
 	private String animalMaterial;
 	
-	public Animals(long serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, String animalMaterial, String animalSize) {
+	public Animals(String serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, String animalMaterial, String animalSize) {
 		super(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge);
 		this.animalMaterial = animalMaterial;
 		this.animalSize = animalSize;

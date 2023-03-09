@@ -4,7 +4,7 @@ public class Puzzles extends Toy{
 
 	private String puzzleType;
 	
-	public Puzzles(long serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, String puzzleType) {
+	public Puzzles(String serialNumber, String toyName, String toyBrand, double toyPrice, int availableCount, int appropriateAge, String puzzleType) {
 		super(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge);
 		this.puzzleType = puzzleType;
 	}

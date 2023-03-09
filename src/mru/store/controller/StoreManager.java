@@ -14,21 +14,323 @@ public class StoreManager {
 	private final String FILE_PATH = "res/toys.txt";
 	AppMenu appMenu;
 	ArrayList<Toy> toyList;
+	private Scanner input;
+	
+	private String serialNumber;
+	private String toyName;
+	private String toyBrand;
+	private double toyPrice;
+	private int availableCount;
+	private int appropriateAge;
+	
+	private int minimumPlayers;
+	private int maximumPlayers;
+	
+	private String designerNames;
+	private String figureClassification;
+	private String animalMaterial;
+	private String animalSize;
+	private String puzzleType;
+	
+//	private String serialNumberCheck;	//for SN check
+//	private boolean firstRun = true;	// not sure if i can leave them up here
 	
 	Toy toy;
 	
 	public StoreManager() throws Exception {
 		appMenu = new AppMenu();
 		toyList = new ArrayList<>();
-		
+		input = new Scanner(System.in);
 		loadData(); //ask if we need to surround this with try and catch 
+	}
+	
+	public void mainMenu() {
+		appMenu.showMainMenu();;
+		int choice = input.nextInt();
+		switch (choice) {
+		case 1:
+			searchInventory();
+			break;
+		case 2:
+			addToy();
+			break;
+		case 3:
+			removeToy();
+			break;
+		case 4:
+			save();
+			break;
+		default:
+			appMenu.invalidInput();
+			mainMenu();
+			break;
+		}
+	}
+	
+	public void searchInventory() {
+		appMenu.showSearchInventory();;
+		int choice = input.nextInt();
+		switch (choice) {
+		case 1:			
+			do {
+				appMenu.promptToySerialNumber();
+				serialNumber = input.nextLine();
+				if (serialNumber.length() != 10) {
+					appMenu.promptInvalidSerialNumber();
+				}
+			} while (serialNumber.length() != 10);
+			
+			searchBySerialNumber(serialNumber);
+			break;
+			
+		case 2:
+			appMenu.promptToyName();
+			String searchToyName = input.nextLine();
+			searchByToyName(searchToyName);
+			break;
+		case 3:
+			appMenu.promptToyType();
+			int searchToyType = input.nextInt();
+			searchByToyType(searchToyType);
+			break;
+		case 4:
+			mainMenu();
+			break;
+		default:
+			appMenu.invalidInput();
+			searchInventory();
+			break;
+		}		
+	}
+	
+	public void addToy() {
+		serialNumber = null;
+		toyName = null;
+		toyBrand = null;
+		toyPrice = 0;
+		availableCount = 0;
+		appropriateAge = 0;
+		minimumPlayers = 0;
+		maximumPlayers = 0;
+		designerNames = null;
+		figureClassification = null;
+		animalMaterial = null;
+		animalSize = null;
+		puzzleType = null;
+		
+		appMenu.promptToySerialNumberAdd();
+		do {
+			serialNumber = input.nextLine();
+			if (serialNumber.length() != 10) {
+				appMenu.invalidInput();
+				appMenu.promptToySerialNumberAdd();
+			}
+		} while (serialNumber == null || serialNumber.length() != 10);
+		
+		appMenu.promptToyNameAdd();
+		do {
+			toyName = input.nextLine();
+		} while (toyName == null);
+		
+		appMenu.promptToyBrand();
+		do {
+			toyBrand = input.nextLine();
+		} while (toyBrand == null);
+		
+		//INSERT TRY AND CATCH HERE FOR PRICE
+		appMenu.promptToyPrice();
+		do {
+			toyPrice = input.nextDouble();
+			if (toyPrice <= 0) {
+				appMenu.invalidInput();
+				appMenu.promptToyPrice();
+			}
+		} while (toyPrice <= 0);
+		
+		appMenu.promptAvailableCount();
+		do {
+			availableCount = input.nextInt();
+			if (availableCount <= 0) {
+				appMenu.invalidInput();
+				appMenu.promptAvailableCount();
+			}
+		} while (availableCount <= 0);
+		
+		appMenu.promptAppropriateAge();
+		do {
+			appropriateAge = input.nextInt();
+			if (appropriateAge <= 0) {
+				appMenu.invalidInput();
+				appMenu.promptAppropriateAge();
+			}
+		} while (appropriateAge <= 0);
+		
+		//figure
+		if (serialNumber.charAt(0) == '0' || serialNumber.charAt(0) == '1') {
+			appMenu.promptFigureClassification();
+			do {
+				figureClassification = input.nextLine();
+				if (figureClassification != "A" && figureClassification != "D" && figureClassification != "H") {
+					appMenu.invalidInput();
+					appMenu.promptFigureClassification();
+				}
+			} while (figureClassification != "A" && figureClassification != "D" && figureClassification != "H");
+		}
+		
+		//animal
+		if (serialNumber.charAt(0) == '2' || serialNumber.charAt(0) == '3') {
+			appMenu.promptAnimalMaterial();
+			do {
+				animalMaterial = input.nextLine();
+			} while (animalMaterial == null);	
+			
+			appMenu.promptAnimalSize();
+			do {
+				animalSize = input.nextLine();
+				if (animalSize != "S" && animalSize != "M" && animalSize != "L") {
+					appMenu.invalidInput();
+					appMenu.promptAnimalSize();
+				}
+			} while (animalSize != "S" && animalSize != "M" && animalSize != "L");
+		}
+		
+		// puzzle
+		if (serialNumber.charAt(0) == '4'|| serialNumber.charAt(0) == '5' || serialNumber.charAt(0) == '6') {
+			appMenu.promptPuzzleType();
+			do {
+				puzzleType = input.nextLine();
+				if (puzzleType != "M" && puzzleType != "C" && puzzleType != "L" && puzzleType != "T" && puzzleType != "R") {
+					appMenu.invalidInput();
+					appMenu.promptPuzzleType();
+				}
+			} 	while (puzzleType != "M" && puzzleType != "C" && puzzleType != "L" && puzzleType != "T" && puzzleType != "R");
+		}
+		
+		//board games
+		//for exception: https://www.baeldung.com/java-new-custom-exception
+		//if (player count problem) 
+		//throw new CustomException(error message)
+		
+		if (serialNumber.charAt(0) == '7' || serialNumber.charAt(0) == '8' || serialNumber.charAt(0) == '9') {
+			appMenu.promptBoardGameMinimumPlayers();
+			do {
+				minimumPlayers = input.nextInt();
+				if (minimumPlayers <= 0) {
+					appMenu.invalidInput();
+					appMenu.promptBoardGameMinimumPlayers();
+				}
+			} while (minimumPlayers <= 0);
+
+			appMenu.promptBoardGameMaximumPlayers();
+			do {
+				maximumPlayers = input.nextInt();
+				if (maximumPlayers < minimumPlayers) {
+					appMenu.invalidInput();
+					appMenu.promptBoardGameMaximumPlayers();
+				}
+			} while (maximumPlayers == 0 && maximumPlayers < minimumPlayers);
+			
+			appMenu.promptBoardGameDesigners();
+			do {
+				designerNames = input.nextLine();
+			} while (designerNames == null);
+		}
+		System.out.println("New toy added!");
+	}
+	
+	public void removeToy() {
+		serialNumber = null;
+		boolean currentToyFound = false;
+		
+		appMenu.promptToySerialNumberAdd();
+		do {
+			serialNumber = input.nextLine();
+			if (serialNumber.length() != 10) {
+				appMenu.invalidInput();
+				appMenu.promptToySerialNumberAdd();
+			}
+		} while (serialNumber == null || serialNumber.length() != 10);
+		
+		if (serialNumber.length() == 10) {
+			for (Toy toy:toyList) {
+				String currentToy = toy.getSerialNumber();
+				if (currentToy.equals(serialNumber)) {
+					System.out.println(toy.toString());
+					currentToyFound = true;
+				}
+			}
+		}
+		
+		if (currentToyFound == true) {
+			appMenu.removeMessage();
+			String removeChoice = input.nextLine().toLowerCase();
+			switch (removeChoice) {
+			case "y":
+				// remove toy
+				appMenu.removeSuccess();
+			case "n":
+				appMenu.removeFail();
+			}
+		}
+		else {
+			appMenu.itemNotFound();
+		}
+	}	
+	
+	private void searchBySerialNumber(String serialNumber) {		
+		for (Toy toy:toyList) {
+			String currentToy = toy.getSerialNumber();		
+			if (currentToy.equals(serialNumber)) {
+				System.out.println(toy.toString());
+			}
+		}
+	}
+	
+	private void searchByToyName(String searchToyName) {
+		for (Toy toy:toyList) {
+			String currentToy = toy.getToyName();		
+			if (currentToy.contains(searchToyName)) {
+				System.out.println(toy.toString());
+			}
+		}
+	}
+	
+	private void searchByToyType(int searchToyType) {
+		if (searchToyType == 1) { // figures
+			for (Toy toy:toyList) {	
+				if (toy.getSerialNumber().charAt(0) == '0' || toy.getSerialNumber().charAt(0) == '1') {
+					System.out.println(toy.toString());
+				}
+			}
+		}
+		else if (searchToyType == 2) { // animals
+			for (Toy toy:toyList) {	
+				if (toy.getSerialNumber().charAt(0) == '2' || toy.getSerialNumber().charAt(0) == '3') {
+					System.out.println(toy.toString());
+				}
+			}
+		}
+		else if (searchToyType == 3) { // puzzles
+			for (Toy toy:toyList) {	
+				if (toy.getSerialNumber().charAt(0) == '4' || toy.getSerialNumber().charAt(0) == '5' || toy.getSerialNumber().charAt(0) == '6') {
+					System.out.println(toy.toString());
+				}
+			}
+		}
+		else if (searchToyType == 4) { // boardgames
+			for (Toy toy:toyList) {	
+				if (toy.getSerialNumber().charAt(0) == '7' || toy.getSerialNumber().charAt(0) == '8' || toy.getSerialNumber().charAt(0) == '9') {
+					System.out.println(toy.toString());
+				}
+			}
+		}
 	}
 	
 	public void save() throws Exception { //originally private
 		File db = new File(FILE_PATH);
 		PrintWriter printWriter = new PrintWriter(db);
 		
-		System.out.println("Saved! \n Have a good day!");
+		appMenu.saveMessage();
 		
 		for (Toy t: toyList) {
 			printWriter.println(t.format());
@@ -46,44 +348,37 @@ public class StoreManager {
 			while (fileReader.hasNextLine()) {
 				currentLine = fileReader.nextLine();
 				splitLine = currentLine.split(";");
-				
-				
-				// toy specific attributes will be splitLine[index]
-				long serialNumber = Long.parseLong(splitLine[0]);
+						
+				String serialNumber = splitLine[0];
 				String toyName = splitLine[1];
 				String toyBrand = splitLine[2];
 				double toyPrice = Double.parseDouble(splitLine[3]);
 				int availableCount = Integer.parseInt(splitLine[4]);
 				int appropriateAge = Integer.parseInt(splitLine[5]);
-				
-				//might have to do charAr if we have problems with leading zeroes
-				if (serialNumber >= 000000000L && serialNumber <= 1999999999L) {
 
-					//making new toy to add
-					//we add toy at end of loop
-					toy = new Figures(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, splitLine[6]);
-				}
-				else if (serialNumber >= 2000000000L && serialNumber <= 3999999999L) {
-					toy = new Animals(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, splitLine[6], splitLine[7]);
-				}
-				else if (serialNumber >= 4000000000L && serialNumber <= 6999999999L) {
-					toy = new Puzzles(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, splitLine[6]);
-				}
-				else if (serialNumber >= 7000000000L && serialNumber <= 9999999999L) {
-					//ignore this min max stuff
-					//heads up - changed player count to separate minimum and max values
-//					int minimumPlayerCount = Integer.parseInt(splitLine[6]);
-//					int maxPlayerCount = Integer.parseInt(splitLine[7]);
-					//you can change designers if u want 
+				if (serialNumber.charAt(0) == '0' || serialNumber.charAt(0) == '1') {
+					String figureClassification = splitLine[6];
 					
-					//this is the only toy where specifics contain an integer
-					//HEY SO PLAYER COUNTS ARE STORED AS A STRING WITH A RANGE 
-					//I changed it two values: one for min players and max players
-					//So, we need to change it back to one value as string
-					toy = new BoardGames(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, splitLine[6], splitLine[7]);
+					toy = new Figures(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, figureClassification); 
 				}
-				
-				//then add to array list
+				else if (serialNumber.charAt(0) == '2' || serialNumber.charAt(0) == '3') {
+					String animalMaterial = splitLine[6];
+					String animalSize = splitLine[7];
+					
+					toy = new Animals(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, animalMaterial, animalSize);
+				}
+				else if (serialNumber.charAt(0) == '4' || serialNumber.charAt(0) == '5' || serialNumber.charAt(0) == '6') {
+					String puzzleType = splitLine[6];
+					
+					toy = new Puzzles(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, puzzleType);
+				}
+				else if (serialNumber.charAt(0) == '7' || serialNumber.charAt(0) == '8' || serialNumber.charAt(0) == '9') {
+					int minimumPlayerCount = Character.getNumericValue(splitLine[6].charAt(0));
+					int maximumPlayerCount = Character.getNumericValue(splitLine[6].charAt(2));
+					String boardGameDesigners = splitLine[7];
+					
+					toy = new BoardGames(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, minimumPlayerCount, maximumPlayerCount, boardGameDesigners);
+				}
 					toyList.add(toy);
 					System.out.println(toyList);
 			}
