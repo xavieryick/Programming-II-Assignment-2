@@ -56,7 +56,6 @@ public class BoardGames extends Toy{
 			   "\nAppropriate Age: " + appropriateAge + 
 			   "\nMinimum Player Count: " + minimumPlayerCount +
 			   "\nMaximum Player Count: " + maximumPlayerCount +
-//			   "\nRecommended Players" + playerCountRange +
 			   "\nBoard Game Designers: " + boardGameDesigners;
 	}
 	
@@ -68,9 +67,7 @@ public class BoardGames extends Toy{
 			 + toyPrice + ";" 
 			 + availableCount + ";" 
 			 + appropriateAge + ";"
-			 + minimumPlayerCount + ";"
-			 + maximumPlayerCount + ";"
-//			 + playerCountRange + ";"
+			 + minimumPlayerCount + "-" + maximumPlayerCount + ";"
 			 + boardGameDesigners;
 	}
 }

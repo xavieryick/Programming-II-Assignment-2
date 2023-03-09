@@ -79,7 +79,7 @@ public class StoreManager {
 			do {
 				appMenu.promptToySerialNumber();
 				input.nextLine(); //clearing the buffer 
-				serialNumber = input.nextLine();
+				serialNumber = input.nextLine().trim();
 				if (serialNumber.length() != 10) {
 					appMenu.promptInvalidSerialNumber();
 				}
@@ -91,7 +91,7 @@ public class StoreManager {
 		case 2:
 			appMenu.promptToyName();
 			input.nextLine(); //clearing the buffer 
-			String searchToyName = input.nextLine();
+			String searchToyName = input.nextLine().trim();
 			searchByToyName(searchToyName);
 			break;
 		case 3:
@@ -128,7 +128,7 @@ public class StoreManager {
 		appMenu.promptToySerialNumberAdd();
 			input.nextLine(); // clear the buffer
 		do {
-			serialNumber = input.nextLine();
+			serialNumber = input.nextLine().trim();
 			if (serialNumber.length() != 10) {
 				appMenu.invalidInput();
 				appMenu.promptToySerialNumberAdd();
@@ -137,12 +137,12 @@ public class StoreManager {
 		
 		appMenu.promptToyNameAdd();
 		do {
-			toyName = input.nextLine();
+			toyName = input.nextLine().trim();
 		} while (toyName == null);
 		
 		appMenu.promptToyBrand();
 		do {
-			toyBrand = input.nextLine();
+			toyBrand = input.nextLine().trim();
 		} while (toyBrand == null);
 		
 		//INSERT TRY AND CATCH HERE FOR PRICE
@@ -192,7 +192,7 @@ public class StoreManager {
 		if (serialNumber.charAt(0) == '0' || serialNumber.charAt(0) == '1') {
 			appMenu.promptFigureClassification();
 			do {
-				figureClassification = input.nextLine();
+				figureClassification = input.nextLine().toUpperCase();
 				if (figureClassification != "A" && figureClassification != "D" && figureClassification != "H") {
 					appMenu.invalidInput();
 					appMenu.promptFigureClassification();
@@ -204,12 +204,12 @@ public class StoreManager {
 		if (serialNumber.charAt(0) == '2' || serialNumber.charAt(0) == '3') {
 			appMenu.promptAnimalMaterial();
 			do {
-				animalMaterial = input.nextLine();
+				animalMaterial = input.nextLine().trim().toUpperCase();
 			} while (animalMaterial == null);	
 			
 			appMenu.promptAnimalSize();
 			do {
-				animalSize = input.nextLine();
+				animalSize = input.nextLine().trim().toUpperCase();
 				if (animalSize != "S" && animalSize != "M" && animalSize != "L") {
 					appMenu.invalidInput();
 					appMenu.promptAnimalSize();
@@ -221,7 +221,7 @@ public class StoreManager {
 		if (serialNumber.charAt(0) == '4'|| serialNumber.charAt(0) == '5' || serialNumber.charAt(0) == '6') {
 			appMenu.promptPuzzleType();
 			do {
-				puzzleType = input.nextLine();
+				puzzleType = input.nextLine().trim().toUpperCase();
 				if (puzzleType != "M" && puzzleType != "C" && puzzleType != "L" && puzzleType != "T" && puzzleType != "R") {
 					appMenu.invalidInput();
 					appMenu.promptPuzzleType();
@@ -274,7 +274,7 @@ public class StoreManager {
 			appMenu.promptBoardGameDesigners();
 			input.nextLine(); // clear buffer 
 			do {
-				designerNames = input.nextLine();
+				designerNames = input.nextLine().trim();
 			} while (designerNames == null);
 		}
 		System.out.println("New toy added!");
@@ -286,7 +286,7 @@ public class StoreManager {
 		
 		appMenu.promptToySerialNumberAdd();
 		do {
-			serialNumber = input.nextLine();
+			serialNumber = input.nextLine().trim();
 			if (serialNumber.length() != 10) {
 				appMenu.invalidInput();
 				appMenu.promptToySerialNumberAdd();
