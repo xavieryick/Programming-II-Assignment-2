@@ -1,6 +1,7 @@
 package mru.store.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -36,15 +37,28 @@ public class StoreManager {
 	
 	Toy toy;
 	
-	public StoreManager() throws Exception {
+	public StoreManager() {
 		appMenu = new AppMenu();
 		toyList = new ArrayList<>();
 		input = new Scanner(System.in);
-		loadData(); //ask if we need to surround this with try and catch 
-		launchApplication();
+		
+		try {
+			loadData();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("We couldn't load the database of toys in!");
+		} //ask if we need to surround this with try and catch 
+		
+		try {
+			launchApplication();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("We couldn't launch the application!");
+		}
 	}
 	
 	public void launchApplication() throws Exception{
+		appMenu.welcomeMessage();
 		mainMenu(); //threw an exception here 
 	}
 	
@@ -244,31 +258,33 @@ public class StoreManager {
 				}
 			} while (minimumPlayers <= 0);
 
-			appMenu.promptBoardGameMaximumPlayers();
-			do {
-				maximumPlayers = input.nextInt();
-				if (maximumPlayers < minimumPlayers) {
-					appMenu.invalidInput();
-					appMenu.promptBoardGameMaximumPlayers();
-				}
-			} while (maximumPlayers < minimumPlayers);
-			// original while: maximumPlayers == 0 && maximumPlayers < minimumPlayers
-			
-			// ask him how to cast this 
 //			appMenu.promptBoardGameMaximumPlayers();
 //			do {
 //				maximumPlayers = input.nextInt();
-//				try {
-//					BoardGames boardGame = (BoardGames)toy;
-//					
-//					 boardGame.setMaxPlayerCount(maximumPlayers);
-//				}catch (Exception e){
-//					e.printStackTrace();
-//					
+//				if (maximumPlayers < minimumPlayers) {
 //					appMenu.invalidInput();
 //					appMenu.promptBoardGameMaximumPlayers();
-//				}	
-//			} while (minimumPlayers < maximumPlayers);
+//				}
+//			} while (maximumPlayers < minimumPlayers);
+			// original while: maximumPlayers == 0 && maximumPlayers < minimumPlayers
+			
+			// ask him how to cast this 
+			appMenu.promptBoardGameMaximumPlayers();
+			do {
+				maximumPlayers = input.nextInt();
+				try {
+					// print out what type of toy it is before hand 
+					// need to check for toy before hand, the cast from that toy to BoardGame 
+					BoardGames boardGame = (BoardGames)toy;
+					
+					 boardGame.setMaxPlayerCount(maximumPlayers);
+				}catch (Exception e){
+					e.printStackTrace();
+					
+					appMenu.invalidInput();
+					appMenu.promptBoardGameMaximumPlayers();
+				}	
+			} while (minimumPlayers < maximumPlayers);
 			
 			
 			appMenu.promptBoardGameDesigners();
@@ -320,12 +336,19 @@ public class StoreManager {
 	}	
 	
 	private void searchBySerialNumber(String serialNumber) {		
+		boolean itemFound = false;
 		for (Toy toy:toyList) {
 			String currentToy = toy.getSerialNumber();		
 			if (currentToy.equals(serialNumber)) {
 				System.out.println(toy.toString());
+				itemFound = true;
 			}
 		}
+		
+		if (!itemFound) {
+				appMenu.itemNotFound()
+				;
+			}
 	}
 	
 	private void searchByToyName(String searchToyName) {
@@ -380,10 +403,17 @@ public class StoreManager {
 		printWriter.close();
 	}
 	
-	private void loadData() throws Exception {
+	private void loadData() throws Exception{
 		File db = new File(FILE_PATH);
 		String currentLine;
 		String[] splitLine;
+		
+//		try {
+//			File db = new File(FILE_PATH);
+//		}
+//		catch (FileNotFoundException e){
+//			System.out.println("File not found!");
+//		}
 		
 		if (db.exists()) {
 			Scanner fileReader = new Scanner(db);

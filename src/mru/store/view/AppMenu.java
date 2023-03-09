@@ -4,8 +4,14 @@ public class AppMenu {
 
 	public AppMenu() {}
 	
+	public void welcomeMessage() {
+		System.out.println("*****************************\n"
+						+  "* WELCOME TO THE TOY STORE! *\n"
+						+  "*****************************");
+	}
+	
 	public void showMainMenu() {
-		System.out.println("Welcome! \n "
+		System.out.println("Hello!\n"
 				+ "How may we help you? \n"
 				+ "\n"
 				+ "\t (1) Search inventory and purchase toy \n"
