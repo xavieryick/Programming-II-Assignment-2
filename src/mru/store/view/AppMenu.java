@@ -137,6 +137,6 @@ public class AppMenu {
 	}
 	
 	public void saveMessage() {
-		System.out.println("Saved! \n Have a good day!");
+		System.out.println("Saved!\n Have a good day!");
 	}
 }

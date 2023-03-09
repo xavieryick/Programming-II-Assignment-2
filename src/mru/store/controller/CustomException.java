@@ -7,9 +7,9 @@ public class CustomException extends Exception{
 		
 		super(errorMessage);
 	}
-	//might not need this is we can just put the message in the root spot
-	public CustomException(int price) {
-		
-		super("Prices can't be negative!");
-	}
+//	//might not need this is we can just put the message in the root spot
+//	public CustomException(int price) {
+//		
+//		super("Prices can't be negative!");
+//	}
 }

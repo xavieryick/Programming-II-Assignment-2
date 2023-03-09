@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import mru.store.model.*;
-import mru.store.model.Toy;
 import mru.store.view.AppMenu;
 
 public class StoreManager {
@@ -42,9 +41,14 @@ public class StoreManager {
 		toyList = new ArrayList<>();
 		input = new Scanner(System.in);
 		loadData(); //ask if we need to surround this with try and catch 
+		launchApplication();
 	}
 	
-	public void mainMenu() {
+	public void launchApplication() throws Exception{
+		mainMenu(); //threw an exception here 
+	}
+	
+	public void mainMenu() throws Exception {
 		appMenu.showMainMenu();;
 		int choice = input.nextInt();
 		switch (choice) {
@@ -58,7 +62,7 @@ public class StoreManager {
 			removeToy();
 			break;
 		case 4:
-			save();
+			save(); //will use throw exception, might change to try catch
 			break;
 		default:
 			appMenu.invalidInput();
@@ -67,13 +71,14 @@ public class StoreManager {
 		}
 	}
 	
-	public void searchInventory() {
+	public void searchInventory() throws Exception {
 		appMenu.showSearchInventory();;
 		int choice = input.nextInt();
 		switch (choice) {
 		case 1:			
 			do {
 				appMenu.promptToySerialNumber();
+				input.nextLine(); //clearing the buffer 
 				serialNumber = input.nextLine();
 				if (serialNumber.length() != 10) {
 					appMenu.promptInvalidSerialNumber();
@@ -85,16 +90,18 @@ public class StoreManager {
 			
 		case 2:
 			appMenu.promptToyName();
+			input.nextLine(); //clearing the buffer 
 			String searchToyName = input.nextLine();
 			searchByToyName(searchToyName);
 			break;
 		case 3:
 			appMenu.promptToyType();
+			input.nextLine(); //clearing the buffer 
 			int searchToyType = input.nextInt();
 			searchByToyType(searchToyType);
 			break;
 		case 4:
-			mainMenu();
+			mainMenu(); //throw exception added here too
 			break;
 		default:
 			appMenu.invalidInput();
@@ -119,6 +126,7 @@ public class StoreManager {
 		puzzleType = null;
 		
 		appMenu.promptToySerialNumberAdd();
+			input.nextLine(); // clear the buffer
 		do {
 			serialNumber = input.nextLine();
 			if (serialNumber.length() != 10) {
@@ -138,14 +146,29 @@ public class StoreManager {
 		} while (toyBrand == null);
 		
 		//INSERT TRY AND CATCH HERE FOR PRICE
+		//ask him about this if this is ok since he wants custom exceptions
 		appMenu.promptToyPrice();
+		
 		do {
-			toyPrice = input.nextDouble();
-			if (toyPrice <= 0) {
-				appMenu.invalidInput();
-				appMenu.promptToyPrice();
-			}
-		} while (toyPrice <= 0);
+		toyPrice = input.nextDouble();
+		
+		try {
+		toy.setToyPrice(toyPrice);	
+			} catch (Exception e){
+			e.printStackTrace();
+			
+			appMenu.invalidInput();
+			appMenu.promptToyPrice();
+		}	
+			}while (toyPrice <=0);
+		
+//		do {
+//			toyPrice = input.nextDouble();
+//			if (toyPrice <= 0) {
+//				appMenu.invalidInput();
+//				appMenu.promptToyPrice();
+//			}
+//		} while (toyPrice <= 0);
 		
 		appMenu.promptAvailableCount();
 		do {
@@ -228,9 +251,28 @@ public class StoreManager {
 					appMenu.invalidInput();
 					appMenu.promptBoardGameMaximumPlayers();
 				}
-			} while (maximumPlayers == 0 && maximumPlayers < minimumPlayers);
+			} while (maximumPlayers < minimumPlayers);
+			// original while: maximumPlayers == 0 && maximumPlayers < minimumPlayers
+			
+			// ask him how to cast this 
+//			appMenu.promptBoardGameMaximumPlayers();
+//			do {
+//				maximumPlayers = input.nextInt();
+//				try {
+//					BoardGames boardGame = (BoardGames)toy;
+//					
+//					 boardGame.setMaxPlayerCount(maximumPlayers);
+//				}catch (Exception e){
+//					e.printStackTrace();
+//					
+//					appMenu.invalidInput();
+//					appMenu.promptBoardGameMaximumPlayers();
+//				}	
+//			} while (minimumPlayers < maximumPlayers);
+			
 			
 			appMenu.promptBoardGameDesigners();
+			input.nextLine(); // clear buffer 
 			do {
 				designerNames = input.nextLine();
 			} while (designerNames == null);
@@ -373,13 +415,27 @@ public class StoreManager {
 					toy = new Puzzles(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, puzzleType);
 				}
 				else if (serialNumber.charAt(0) == '7' || serialNumber.charAt(0) == '8' || serialNumber.charAt(0) == '9') {
-					int minimumPlayerCount = Character.getNumericValue(splitLine[6].charAt(0));
-					int maximumPlayerCount = Character.getNumericValue(splitLine[6].charAt(2));
-					String boardGameDesigners = splitLine[7];
+					int minimumPlayerCount = 0;
+					int maximumPlayerCount = 0;
+					String boardGameDesigners;
+					String checkForString = splitLine[6];
+					
+					// this code accounts for that players counts are now saved 
+					// separately after you rewrite the file 
+					if (checkForString.length()!= 1) {
+						minimumPlayerCount = Character.getNumericValue(splitLine[6].charAt(0));
+						maximumPlayerCount = Character.getNumericValue(splitLine[6].charAt(2));	
+						boardGameDesigners = splitLine[7];
+					}else {
+						minimumPlayerCount = Character.getNumericValue(splitLine[6].charAt(0));
+						maximumPlayerCount = Character.getNumericValue(splitLine[7].charAt(0));
+						boardGameDesigners = splitLine[8];
+
+					}
 					
 					toy = new BoardGames(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, minimumPlayerCount, maximumPlayerCount, boardGameDesigners);
 				}
-					toyList.add(toy);
+					toyList.add(toy); 
 //					System.out.println(toyList);
 			}
 			fileReader.close();

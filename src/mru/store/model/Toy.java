@@ -1,5 +1,7 @@
 package mru.store.model;
 
+import mru.store.controller.CustomException;
+
 public abstract class Toy {
 	
 	public String serialNumber;
@@ -36,7 +38,10 @@ public abstract class Toy {
 	public String getToyBrand() {
 		return toyBrand;
 	}
-	public void setToyPrice(double toyPrice) {
+	public void setToyPrice(double toyPrice) throws CustomException {
+		if (toyPrice <= 0) {
+			throw new CustomException("Prices can't be zero or negative!"); 
+		}
 		this.toyPrice = toyPrice;
 	}
 	public double getToyPrice() {

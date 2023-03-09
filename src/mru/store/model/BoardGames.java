@@ -1,5 +1,7 @@
 package mru.store.model;
 
+import mru.store.controller.CustomException;
+
 public class BoardGames extends Toy{
 
 	private int minimumPlayerCount;
@@ -28,7 +30,10 @@ public class BoardGames extends Toy{
 	public int getMinimumPlayerCount() {
 		return minimumPlayerCount;
 	}
-	public void setMaxPlayerCount(int maxPlayerCount) {
+	public void setMaxPlayerCount(int maxPlayerCount) throws CustomException {
+		if(minimumPlayerCount > maximumPlayerCount) {
+			throw new CustomException("Max players can't be higher than minimum players needed!");
+		}
 		this.maximumPlayerCount = maxPlayerCount;
 	}
 	public int getMaxPlayerCount() {
