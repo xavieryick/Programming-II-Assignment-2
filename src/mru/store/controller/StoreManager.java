@@ -380,7 +380,7 @@ public class StoreManager {
 					toy = new BoardGames(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, minimumPlayerCount, maximumPlayerCount, boardGameDesigners);
 				}
 					toyList.add(toy);
-					System.out.println(toyList);
+//					System.out.println(toyList);
 			}
 			fileReader.close();
 		}
