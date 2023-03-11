@@ -169,7 +169,7 @@ public class StoreManager {
 		try {
 		toy.setToyPrice(toyPrice);	
 			} catch (Exception e){
-//			e.printStackTrace();
+			e.printStackTrace();
 			
 			appMenu.invalidInput();
 			appMenu.promptToyPrice();
@@ -279,7 +279,7 @@ public class StoreManager {
 					
 					 boardGame.setMaxPlayerCount(maximumPlayers);
 				}catch (Exception e){
-//					e.printStackTrace();
+					e.printStackTrace();
 					
 					appMenu.invalidInput();
 					appMenu.promptBoardGameMaximumPlayers();
