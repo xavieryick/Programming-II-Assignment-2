@@ -84,6 +84,7 @@ public class StoreManager {
 			break;
 		case 4:
 			save(); //will use throw exception, might change to try catch
+			appMenu.visitMessage(); // will tell user goodbye
 			break;
 		default:
 			appMenu.invalidInput();
@@ -234,6 +235,8 @@ public class StoreManager {
 		//figure
 		if (serialNumber.charAt(0) == '0' || serialNumber.charAt(0) == '1') {
 			appMenu.promptFigureClassification();
+			input.nextLine(); //clears the buffer
+
 			do {
 				figureClassification = input.nextLine().toUpperCase();
 				if (figureClassification != "A" && figureClassification != "D" && figureClassification != "H") {
@@ -246,11 +249,15 @@ public class StoreManager {
 		//animal
 		if (serialNumber.charAt(0) == '2' || serialNumber.charAt(0) == '3') {
 			appMenu.promptAnimalMaterial();
+			input.nextLine(); //clears the buffer
+			
 			do {
 				animalMaterial = input.nextLine().trim().toUpperCase();
 			} while (animalMaterial == null);	
 			
+//			input.nextLine(); //clears the buffer
 			appMenu.promptAnimalSize();
+			
 			do {
 				animalSize = input.nextLine().trim().toUpperCase();
 				if (animalSize != "S" && animalSize != "M" && animalSize != "L") {
@@ -273,6 +280,7 @@ public class StoreManager {
 		}
 		
 		//board games
+		
 		//for exception: https://www.baeldung.com/java-new-custom-exception
 		//if (player count problem) 
 		//throw new CustomException(error message)
@@ -323,6 +331,35 @@ public class StoreManager {
 			} while (designerNames == null);
 		}
 		System.out.println("New toy added!");
+		
+		// saving changes
+		try {
+			save();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("We couldn't save your changes.");
+			appMenu.backToMainMenu();
+			try {
+				mainMenu();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				System.out.println("We couldn't send you back to the main menu.");
+			}
+		}
+		
+		// a press enter
+				appMenu.pressEnter();
+				String userChoice;
+				do {
+					userChoice = input.nextLine();
+				} while (userChoice.length() != 0);
+				try {
+					mainMenu();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("We couldn't send you back to the main menu.");
+				}
+		
 	}
 	
 	public void removeToy() {
@@ -369,9 +406,29 @@ public class StoreManager {
 //				System.out.println(toyList);
 				
 				appMenu.removeSuccess();
+//				System.out.println(toyList);
+				
+				//running a save 
+//				appMenu.saveMessage();
+			try {
+				save();
+//				appMenu.backToMainMenu();
+//				mainMenu();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("We couldn't save your changes.");
+			}
+				
 				break;
 			case "n":
 				appMenu.removeFail();
+//				try {
+//					appMenu.backToMainMenu();
+//					mainMenu();
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					System.out.println("We couldn't send you back to the main menu.");
+//				}
 				break;
 				
 			// user validation stuff for a non-"y/n" case
@@ -384,6 +441,19 @@ public class StoreManager {
 		}
 		else {
 			appMenu.itemNotFound();
+		}
+		
+		// a press enter
+		appMenu.pressEnter();
+		String userChoice;
+		do {
+			userChoice = input.nextLine();
+		} while (userChoice.length() != 0);
+		try {
+			mainMenu();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("We couldn't send you back to the main menu.");
 		}
 	}	
 	
@@ -504,6 +574,7 @@ public class StoreManager {
 		PrintWriter printWriter = new PrintWriter(db);
 		
 		appMenu.saveMessage();
+//		appMenu.visitMessage();
 		
 		for (Toy t: toyList) {
 			printWriter.println(t.format());

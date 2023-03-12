@@ -9,7 +9,7 @@ class PuzzlesTest {
 	
 	@Test
 	void setPuzzleTypeTest() {
-		toy = new Puzzles(1234567890, "balloons", "matel", 15, 10, 5, "logic");
+		toy = new Puzzles("1234567890", "balloons", "matel", 15, 10, 5, "logic");
 		toy.setPuzzleType("logic");
 		String puzzleType = toy.getPuzzleType();
 		assertEquals(puzzleType, "logic");
@@ -17,7 +17,7 @@ class PuzzlesTest {
 	
 	@Test
 	void getPuzzleTypeTest() {
-		toy = new Puzzles(1234567890, "balloons", "matel", 15, 10, 5, "logic");
+		toy = new Puzzles("1234567890", "balloons", "matel", 15, 10, 5, "logic");
 		String puzzleType = toy.getPuzzleType();
 		assertEquals(puzzleType, "logic");
 	}
