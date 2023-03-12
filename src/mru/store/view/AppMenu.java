@@ -139,7 +139,11 @@ public class AppMenu {
 	}
 	
 	public void removeMessage() {
-		System.out.println("Do you want to remove this toy? (Y/N) ");
+		System.out.println("Do you want to remove this toy? (Y/N): ");
+	}
+	
+	public void purchaseMessage() {
+		System.out.println("Do you want to purchase this toy? (Y/N): ");
 	}
 	
 	public void itemNotFound() {
@@ -152,6 +156,14 @@ public class AppMenu {
 	
 	public void removeFail() {
 		System.out.println("Item was not removed.");
+	}
+	
+	public void purchaseSuccess() {
+		System.out.println("Item was successfully purchased.");
+	}
+	
+	public void purchaseFail() {
+		System.out.println("Item was not purchased!");
 	}
 	
 	public void saveMessage() {

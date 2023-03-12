@@ -459,18 +459,33 @@ public class StoreManager {
 	
 	private void searchBySerialNumber(String serialNumber) {		
 		boolean itemFound = false;
-		for (Toy toy:toyList) {
-			String currentToy = toy.getSerialNumber();		
+		int index = 0;
+		for (index = 0; index < toyList.size(); index++) {
+			String currentToy = toyList.get(index).getSerialNumber();
 			if (currentToy.equals(serialNumber)) {
 				System.out.println(toy.toString());
 				itemFound = true;
+				break;
 			}
 		}
 		
-		if (!itemFound) {
-				appMenu.itemNotFound();
-				appMenu.backToSearchInventory();	
+		if (itemFound = true) {
+			appMenu.purchaseMessage();
+			String removeChoice = input.nextLine().toLowerCase();
+			switch (removeChoice) {
+				case "y":
+					//remove toy
+				
 			}
+			
+			
+		}
+	
+		
+//		if (!itemFound) {
+//				appMenu.itemNotFound();
+//				appMenu.backToSearchInventory();	
+//			}
 	}
 	
 	private void searchByToyName(String searchToyName) {
