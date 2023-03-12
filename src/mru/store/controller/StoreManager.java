@@ -328,6 +328,7 @@ public class StoreManager {
 	public void removeToy() {
 		serialNumber = null;
 		boolean currentToyFound = false;
+		int index = 0;
 		
 		appMenu.promptToySerialNumberAdd();
 		input.nextLine(); //clears the buffer
@@ -339,12 +340,18 @@ public class StoreManager {
 			}
 		} while (serialNumber == null || serialNumber.length() != 10);
 		
-		if (serialNumber.length() == 10) {
-			for (Toy toy:toyList) {
-				String currentToy = toy.getSerialNumber();
+		if (serialNumber.length() == 10) {	
+			// serialNumber is input. currentToy is serialNumber in toyList.
+			for (index = 0; index < toyList.size(); index++) {
+				String currentToy = toyList.get(index).getSerialNumber();
+//				System.out.println(currentToy);
 				if (currentToy.equals(serialNumber)) {
-					System.out.println(toy.toString());
+					System.out.println(toyList.get(index).toString());
 					currentToyFound = true;
+					break;
+				}
+				else {
+					currentToyFound = false;
 				}
 			}
 		}
@@ -355,15 +362,24 @@ public class StoreManager {
 			switch (removeChoice) {
 			case "y":
 				// remove toy
-//				toyList.remove(toy);
+				toyList.remove(index);
 //				
 //				System.out.println("toy being removed is: " + toy);
 //				System.out.println("testing to remove first toy in list");
 //				System.out.println(toyList);
 				
 				appMenu.removeSuccess();
+				break;
 			case "n":
 				appMenu.removeFail();
+				break;
+				
+			// user validation stuff for a non-"y/n" case
+//			default:
+//				appMenu.invalidInput();
+//				appMenu.removeMessage();
+//				removeChoice = input.nextLine().toLowerCase();
+//				break;
 			}
 		}
 		else {
