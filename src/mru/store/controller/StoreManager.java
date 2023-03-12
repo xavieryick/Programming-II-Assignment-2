@@ -63,7 +63,14 @@ public class StoreManager {
 	}
 	
 	public void mainMenu() throws Exception {
-		appMenu.showMainMenu();;
+		appMenu.showMainMenu();
+		
+		while (!input.hasNextInt()) { //this validation works
+			input.nextLine();
+			appMenu.invalidInput();
+			appMenu.showMainMenu();
+		}
+		
 		int choice = input.nextInt();
 		switch (choice) {
 		case 1:
@@ -86,16 +93,23 @@ public class StoreManager {
 	}
 	
 	public void searchInventory() throws Exception {
-		appMenu.showSearchInventory();;
+		appMenu.showSearchInventory();
+		
+		while (!input.hasNextInt()) { //this validation works
+			input.nextLine();
+			appMenu.invalidInput();
+			appMenu.showSearchInventory();
+		}
+		
 		int choice = input.nextInt();
 		switch (choice) {
-		case 1:			
+		case 1:	
+		input.nextLine(); //clearing the buffer	
 			do {
 				appMenu.promptToySerialNumber();
-				input.nextLine(); //clearing the buffer 
 				serialNumber = input.nextLine().trim();
 				if (serialNumber.length() != 10) {
-					appMenu.promptInvalidSerialNumber();
+					appMenu.promptInvalidSerialNumber();	 
 				}
 			} while (serialNumber.length() != 10);
 			
@@ -103,20 +117,35 @@ public class StoreManager {
 			break;
 			
 		case 2:
+			input.nextLine(); //clearing the buffer
 			appMenu.promptToyName();
-			input.nextLine(); //clearing the buffer 
-			String searchToyName = input.nextLine().trim();
-			searchByToyName(searchToyName);
+			String searchToyName = input.nextLine().toLowerCase(); //got rid of trim
+			
+			while (searchToyName.isEmpty() || searchToyName.isBlank()) {
+				 
+				appMenu.invalidInput();
+				appMenu.promptToyName();
+				searchToyName = input.nextLine().toLowerCase();
+			}
+			searchByToyName(searchToyName); //doing a weird thing with needing to have to press space twice
 			break;
+			
 		case 3:
 			appMenu.promptToyType();
-			input.nextLine(); //clearing the buffer 
+			
+			while (!input.hasNextInt()) {
+				appMenu.invalidInput();
+				input.nextLine(); //clearing the buffer 
+				appMenu.promptToyType();		
+			}
 			int searchToyType = input.nextInt();
 			searchByToyType(searchToyType);
 			break;
+			
 		case 4:
 			mainMenu(); //throw exception added here too
 			break;
+			
 		default:
 			appMenu.invalidInput();
 			searchInventory();
@@ -301,6 +330,7 @@ public class StoreManager {
 		boolean currentToyFound = false;
 		
 		appMenu.promptToySerialNumberAdd();
+		input.nextLine(); //clears the buffer
 		do {
 			serialNumber = input.nextLine().trim();
 			if (serialNumber.length() != 10) {
@@ -325,6 +355,12 @@ public class StoreManager {
 			switch (removeChoice) {
 			case "y":
 				// remove toy
+//				toyList.remove(toy);
+//				
+//				System.out.println("toy being removed is: " + toy);
+//				System.out.println("testing to remove first toy in list");
+//				System.out.println(toyList);
+				
 				appMenu.removeSuccess();
 			case "n":
 				appMenu.removeFail();
@@ -346,49 +382,105 @@ public class StoreManager {
 		}
 		
 		if (!itemFound) {
-				appMenu.itemNotFound()
-				;
+				appMenu.itemNotFound();
+				appMenu.backToSearchInventory();	
 			}
 	}
 	
 	private void searchByToyName(String searchToyName) {
 		for (Toy toy:toyList) {
 			String currentToy = toy.getToyName();		
-			if (currentToy.contains(searchToyName)) {
+			if (currentToy.toLowerCase().contains(searchToyName)) {
 				System.out.println(toy.toString());
 			}
 		}
 	}
 	
 	private void searchByToyType(int searchToyType) {
-		if (searchToyType == 1) { // figures
+		//change this to switch cases to make my life easier for user validation
+		switch(searchToyType) {
+		
+		case 1:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '0' || toy.getSerialNumber().charAt(0) == '1') {
 					System.out.println(toy.toString());
 				}
 			}
-		}
-		else if (searchToyType == 2) { // animals
+			break;
+		case 2:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '2' || toy.getSerialNumber().charAt(0) == '3') {
 					System.out.println(toy.toString());
 				}
 			}
-		}
-		else if (searchToyType == 3) { // puzzles
+			break;
+		
+		case 3:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '4' || toy.getSerialNumber().charAt(0) == '5' || toy.getSerialNumber().charAt(0) == '6') {
 					System.out.println(toy.toString());
 				}
 			}
-		}
-		else if (searchToyType == 4) { // boardgames
+			break;
+		
+		case 4:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '7' || toy.getSerialNumber().charAt(0) == '8' || toy.getSerialNumber().charAt(0) == '9') {
 					System.out.println(toy.toString());
 				}
 			}
+			break;
+		
+		default:
+			appMenu.invalidInput();
+			appMenu.backToSearchInventory();
+			try {
+				searchInventory();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+//		if (searchToyType == 1) { // figures
+//			for (Toy toy:toyList) {	
+//				if (toy.getSerialNumber().charAt(0) == '0' || toy.getSerialNumber().charAt(0) == '1') {
+//					System.out.println(toy.toString());
+//				}
+//			}
+//		}
+//		else if (searchToyType == 2) { // animals
+//			for (Toy toy:toyList) {	
+//				if (toy.getSerialNumber().charAt(0) == '2' || toy.getSerialNumber().charAt(0) == '3') {
+//					System.out.println(toy.toString());
+//				}
+//			}
+//		}
+//		else if (searchToyType == 3) { // puzzles
+//			for (Toy toy:toyList) {	
+//				if (toy.getSerialNumber().charAt(0) == '4' || toy.getSerialNumber().charAt(0) == '5' || toy.getSerialNumber().charAt(0) == '6') {
+//					System.out.println(toy.toString());
+//				}
+//			}
+//		}
+//		else if (searchToyType == 4) { // boardgames
+//			for (Toy toy:toyList) {	
+//				if (toy.getSerialNumber().charAt(0) == '7' || toy.getSerialNumber().charAt(0) == '8' || toy.getSerialNumber().charAt(0) == '9') {
+//					System.out.println(toy.toString());
+//				}
+//			}
+//		}
+//		else {
+//			appMenu.invalidInput();
+//			appMenu.backToSearchInventory();
+//			try {
+//				searchInventory(); //something is still in the buffer and clear buffer isn't working
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//		}
 	}
 	
 	public void save() throws Exception { //originally private
@@ -419,6 +511,7 @@ public class StoreManager {
 			Scanner fileReader = new Scanner(db);
 			while (fileReader.hasNextLine()) {
 				currentLine = fileReader.nextLine();
+//				currentLine = currentLine.toLowerCase(); //changes the file to lowercase on default
 				splitLine = currentLine.split(";");
 						
 				String serialNumber = splitLine[0];

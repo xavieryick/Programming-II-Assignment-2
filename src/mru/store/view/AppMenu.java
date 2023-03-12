@@ -37,6 +37,10 @@ public class AppMenu {
 		System.out.println("Invalid input!");
 	}
 	
+	public void backToSearchInventory() {
+		System.out.println("Sending you back to the search inventory menu...");
+	}
+	
 	public void promptToySerialNumber() {
 		System.out.println("Please enter a serial number: ");
 	}
