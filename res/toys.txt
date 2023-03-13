@@ -1,10 +1,10 @@
 2835360879;Cow;Game Assassin;19.52;3;7;Plastic;M
 8616804705;Mikado;Game Pixel;9.32;9;9;1-4;Haniya Woodley
 3066990646;Horse;Gamescape;165.61;1;7;Wooden;L
-5726898779;Pocket Cube;Game Orc;42.83;1;4;M
-3015547049;Dove;Game Zombie;24.55;2;9;Wooden;S
+5726898779;Pocket Cube;Game Orc;42.83;0;4;M
+3015547049;Dove;Game Zombie;24.55;0;9;Wooden;S
 1147205649;Ninja Turtles;Gamezoid;46.15;10;6;A
-4863437054;Logic puzzle;Game Shadow;265.62;11;4;T
+4863437054;Logic puzzle;Game Shadow;265.62;10;4;T
 6114587612;Morpion solitaire;Game Rush;47.89;5;6;L
 4774316121;Snake cube;Game Sensor;184.21;9;3;C
 9074383778;Blue Max;Gamearo;199.37;11;2;1-3;Rojin Poole
@@ -35,7 +35,7 @@
 6596226544;Rattle puzzle;Gameara;43.21;5;8;T
 1731377211;Groovy Girls;Game Loop;80.66;3;5;H
 8934865506;Djambi;Game Shadow;78.76;3;6;2-6;T-Jay Harper,Marshall Swanson
-7393662390;Star Wars Tactics;Game Loop;3.44;3;2;1-5;Ruairidh Larsen
+7393662390;Star Wars Tactics;Game Loop;3.44;1;2;1-5;Ruairidh Larsen
 9399563748;Monopoly;Game Survival;47.52;4;3;2-5;Usama Salas
 4831187177;Tiling puzzle;Game Rush;85.6;1;6;L
 1772751359;Teddy bear;Game Reboot;221.46;8;3;H
@@ -129,7 +129,7 @@
 5637161167;Kakuro;Gamearo;0.33;14;5;M
 6957748827;Rubik's Revenge;Game Loop;73.88;13;9;C
 9108635194;Spy Alley;Game Orc;29.47;1;4;2-4;Rhiann Worthington,Milla Baxter
-8076566788;Star Wars Epic Duels;Game Reboot;285.25;14;9;2-3;Troy Mcbride
+8076566788;Star Wars Epic Duels;Game Reboot;285.25;10;9;2-3;Troy Mcbride
 2342281667;Lion;Game Throne;14.07;14;10;Wooden;M
 8573975959;War on Terror;Game Survival;104.63;7;9;2-7;Maryam Mcdonnell,Osian Hendricks
 0496522522;Anatomically correct doll;Game Rush;171.46;13;8;H

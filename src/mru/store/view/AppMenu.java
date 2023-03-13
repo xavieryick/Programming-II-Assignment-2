@@ -38,7 +38,7 @@ public class AppMenu {
 	}
 	
 	public void selectOption() {
-		System.out.println("\nSelect an item to purchase to go back to the main menu.");
+		System.out.println("\nSelect an item to purchase or go back to the main menu.");
 	}
 	
 	public void pressEnter() {
