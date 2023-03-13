@@ -674,6 +674,7 @@ public class StoreManager {
 	
 	private void searchByToyType(int searchToyType) {
 		//change this to switch cases to make my life easier for user validation
+		// use same concept in search by toy name 
 		appMenu.searchResults();
 		switch(searchToyType) {
 		
