@@ -28,10 +28,10 @@ public class StoreManager {
 	private int maximumPlayers;
 	
 	private String designerNames;
-	private String figureClassification;
+	private char figureClassification;
 	private String animalMaterial;
-	private String animalSize;
-	private String puzzleType;
+	private char animalSize;
+	private char puzzleType;
 	
 //	private String serialNumberCheck;	//for SN check
 //	private boolean firstRun = true;	// not sure if i can leave them up here
@@ -157,18 +157,18 @@ public class StoreManager {
 	
 	public void addToy() {
 		serialNumber = null;
-		toyName = null;
-		toyBrand = null;
+		toyName = "";
+		toyBrand = "";
 		toyPrice = 0;
 		availableCount = 0;
 		appropriateAge = 0;
 		minimumPlayers = 0;
 		maximumPlayers = 0;
 		designerNames = null;
-		figureClassification = null;
+		figureClassification = 'x';
 		animalMaterial = null;
-		animalSize = null;
-		puzzleType = null;
+		animalSize = 'x';
+		puzzleType = 'x';
 		
 		appMenu.promptToySerialNumberAdd();
 			input.nextLine(); // clear the buffer
@@ -183,12 +183,12 @@ public class StoreManager {
 		appMenu.promptToyNameAdd();
 		do {
 			toyName = input.nextLine().trim();
-		} while (toyName == null);
+		} while (toyName == null && toyName == "");
 		
 		appMenu.promptToyBrand();
 		do {
 			toyBrand = input.nextLine().trim();
-		} while (toyBrand == null);
+		} while (toyBrand == null && toyBrand == "");
 		
 		//INSERT TRY AND CATCH HERE FOR PRICE
 		//ask him about this if this is ok since he wants custom exceptions
@@ -200,6 +200,7 @@ public class StoreManager {
 		try {
 		toy.setToyPrice(toyPrice);	
 			} catch (Exception e){
+				System.out.println(toy);
 			e.printStackTrace();
 			
 			appMenu.invalidInput();
@@ -239,12 +240,15 @@ public class StoreManager {
 			input.nextLine(); //clears the buffer
 
 			do {
-				figureClassification = input.nextLine().toUpperCase();
-				if (figureClassification != "A" && figureClassification != "D" && figureClassification != "H") {
+				figureClassification = input.nextLine().toUpperCase().charAt(0);
+				if (figureClassification != 'A' && figureClassification != 'D' && figureClassification != 'H') {
 					appMenu.invalidInput();
 					appMenu.promptFigureClassification();
 				}
-			} while (figureClassification != "A" && figureClassification != "D" && figureClassification != "H");
+			} while (figureClassification != 'A' && figureClassification != 'D' && figureClassification != 'H');
+			String addFigureClassification = Character.toString(figureClassification);
+			Toy addToy = new Figures(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,addFigureClassification);
+			toyList.add(addToy);
 		}
 		
 		//animal
@@ -260,24 +264,31 @@ public class StoreManager {
 			appMenu.promptAnimalSize();
 			
 			do {
-				animalSize = input.nextLine().trim().toUpperCase();
-				if (animalSize != "S" && animalSize != "M" && animalSize != "L") {
+				animalSize = input.nextLine().trim().toUpperCase().charAt(0);
+				if (animalSize != 'S' && animalSize != 'M' && animalSize != 'L') {
 					appMenu.invalidInput();
 					appMenu.promptAnimalSize();
 				}
-			} while (animalSize != "S" && animalSize != "M" && animalSize != "L");
+			} while (animalSize != 'S' && animalSize != 'M' && animalSize != 'L');
+			String addAnimalSize = Character.toString(animalSize);
+			Toy addToy = new Animals(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,animalMaterial,addAnimalSize);
+			toyList.add(addToy);
 		}
 		
 		// puzzle
 		if (serialNumber.charAt(0) == '4'|| serialNumber.charAt(0) == '5' || serialNumber.charAt(0) == '6') {
 			appMenu.promptPuzzleType();
+			input.nextLine();
 			do {
-				puzzleType = input.nextLine().trim().toUpperCase();
-				if (puzzleType != "M" && puzzleType != "C" && puzzleType != "L" && puzzleType != "T" && puzzleType != "R") {
+				puzzleType = input.nextLine().trim().toUpperCase().charAt(0);
+				if (puzzleType != 'M' && puzzleType != 'C' && puzzleType != 'L' && puzzleType != 'T' && puzzleType != 'R') {
 					appMenu.invalidInput();
 					appMenu.promptPuzzleType();
 				}
-			} 	while (puzzleType != "M" && puzzleType != "C" && puzzleType != "L" && puzzleType != "T" && puzzleType != "R");
+			} 	while (puzzleType != 'M' && puzzleType != 'C' && puzzleType != 'L' && puzzleType != 'T' && puzzleType != 'R');
+			String addPuzzleType = Character.toString(puzzleType);
+			Toy addToy = new Puzzles(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,addPuzzleType);
+			toyList.add(addToy);
 		}
 		
 		//board games
@@ -330,9 +341,10 @@ public class StoreManager {
 			do {
 				designerNames = input.nextLine().trim();
 			} while (designerNames == null);
+			Toy addToy = new BoardGames(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,minimumPlayers,maximumPlayers,designerNames);
+			toyList.add(addToy);
 		}
 		System.out.println("New toy added!\n");
-		
 		
 		// saving changes
 		try {

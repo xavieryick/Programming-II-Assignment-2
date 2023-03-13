@@ -126,11 +126,11 @@ public class AppMenu {
 	
 	public void promptPuzzleType() {
 		System.out.println("Enter puzzle type \n"
-				+ "M) Mechanical \n"
-				+ "C) Cryptic \n"
-				+ "L) Logic \n"
-				+ "T) Trivia \n "
-				+ "R) Riddle \n"
+				+ "\t M) Mechanical \n"
+				+ "\t C) Cryptic \n"
+				+ "\t L) Logic \n"
+				+ "\t T) Trivia \n"
+				+ "\t R) Riddle \n"
 				+ "Enter a letter: ");
 	}
 	
