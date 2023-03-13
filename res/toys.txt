@@ -3,7 +3,7 @@
 3066990646;Horse;Gamescape;165.61;1;7;Wooden;L
 5726898779;Pocket Cube;Game Orc;42.83;0;4;M
 3015547049;Dove;Game Zombie;24.55;0;9;Wooden;S
-1147205649;Ninja Turtles;Gamezoid;46.15;10;6;A
+1147205649;Ninja Turtles;Gamezoid;46.15;0;6;A
 4863437054;Logic puzzle;Game Shadow;265.62;10;4;T
 6114587612;Morpion solitaire;Game Rush;47.89;5;6;L
 4774316121;Snake cube;Game Sensor;184.21;9;3;C
@@ -129,7 +129,7 @@
 5637161167;Kakuro;Gamearo;0.33;14;5;M
 6957748827;Rubik's Revenge;Game Loop;73.88;13;9;C
 9108635194;Spy Alley;Game Orc;29.47;1;4;2-4;Rhiann Worthington,Milla Baxter
-8076566788;Star Wars Epic Duels;Game Reboot;285.25;10;9;2-3;Troy Mcbride
+8076566788;Star Wars Epic Duels;Game Reboot;285.25;8;9;2-3;Troy Mcbride
 2342281667;Lion;Game Throne;14.07;14;10;Wooden;M
 8573975959;War on Terror;Game Survival;104.63;7;9;2-7;Maryam Mcdonnell,Osian Hendricks
 0496522522;Anatomically correct doll;Game Rush;171.46;13;8;H

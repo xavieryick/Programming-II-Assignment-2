@@ -547,6 +547,8 @@ public class StoreManager {
 		int toyQuantity = 0; 		// number of the toys in the system
 		boolean itemFound = false;	// if item is found, we prompt purchase menu 
 		
+		appMenu.searchResults(); //display search results
+
 		for (Toy toy:toyList) {
 			String currentToy = toy.getToyName();		
 			if (currentToy.toLowerCase().contains(searchToyName)) {
@@ -567,7 +569,8 @@ public class StoreManager {
 			appMenu.selectOption(); 
 			
 		}
-		
+
+
 		int userInput = input.nextInt();
 		
 		// find highest option available 
@@ -673,98 +676,208 @@ public class StoreManager {
 	}
 	
 	private void searchByToyType(int searchToyType) {
-		//change this to switch cases to make my life easier for user validation
+		ArrayList<Toy> searchResults = new ArrayList<>();	//search results that display to the user 
+		ArrayList<Integer> options = new ArrayList<>(); //how many options we got 
+
+		
+		int index = 0; 				// list check when purchasing to match to SN that we need to reduce 
+		int rewrite = 0; 			// rewriting the list to deduct one from toy quantity 
+		int toyQuantity = 0; 		// number of the toys in the system
+		int number = 1;				// display what number the search result is
+		boolean itemFound = false;	// if item is found, we prompt purchase menu 
+		
+		// change this to switch cases to make my life easier for user validation
 		// use same concept in search by toy name 
-		appMenu.searchResults();
 		switch(searchToyType) {
 		
 		case 1:
+			appMenu.searchResults();
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '0' || toy.getSerialNumber().charAt(0) == '1') {
-					System.out.println("\n");
-					System.out.println(toy.toString());
+					//print out results 
+					//then add to search results list 
+
+					System.out.println("\n(" + number + ") " + toy.toString());
+					options.add(number);
+					number ++;
+					searchResults.add(toy); // works, might not need it 
+				
 				}
 			}
+			System.out.println("\n(" + number + ") " + "Back to the search main menu."); //back to menu function
+
 			break;
 		case 2:
+			appMenu.searchResults();
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '2' || toy.getSerialNumber().charAt(0) == '3') {
-					System.out.println("\n");
-					System.out.println(toy.toString());
+
+					//print out results 
+					//then add to search results list 
+
+					System.out.println("\n(" + number + ") " + toy.toString());
+					options.add(number);
+					number ++;
+					searchResults.add(toy); // works, might not need it 
+				
 				}
 			}
+			System.out.println("\n(" + number + ") " + "Back to the search main menu."); //back to menu function
+			
+			
+
 			break;
 		
 		case 3:
+			appMenu.searchResults();
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '4' || toy.getSerialNumber().charAt(0) == '5' || toy.getSerialNumber().charAt(0) == '6') {
-					System.out.println("\n");
-					System.out.println(toy.toString());
+
+					//print out results 
+					//then add to search results list 
+
+					System.out.println("\n(" + number + ") " + toy.toString());
+					options.add(number);
+					number ++;
+					searchResults.add(toy); // works, might not need it 
+				
 				}
 			}
+			System.out.println("\n(" + number + ") " + "Back to the search main menu."); //back to menu function
+
 			break;
 		
 		case 4:
+			appMenu.searchResults();
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '7' || toy.getSerialNumber().charAt(0) == '8' || toy.getSerialNumber().charAt(0) == '9') {
-					System.out.println("\n");
-					System.out.println(toy.toString());
+
+					//print out results 
+					//then add to search results list 
+
+					System.out.println("\n(" + number + ") " + toy.toString());
+					options.add(number);
+					number ++;
+					searchResults.add(toy); // works, might not need it 
+				
 				}
 			}
+			System.out.println("\n(" + number + ") " + "Back to the search main menu."); //back to menu function
+
 			break;
 		
 		default:
 			appMenu.invalidInput();
+			appMenu.backToSearchInventory();
 			
 		}
 		
-		try {
-			System.out.println("\n");
-			searchInventory();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("we couldn't send you back to the search inventory menu.");
+		//purchasing happens here
+		appMenu.selectOption();
+		
+		//massive copy and paste
+		while (!input.hasNextInt()) { //this validation works
+			input.nextLine();
+			appMenu.invalidInput();
+			appMenu.selectOption(); 
+			
+		}
+
+		int userInput = input.nextInt();
+		
+		// find highest option available 
+		int optionLength = options.size() + 1;
+		
+//		System.out.println("ln 575 - option length" + optionLength);
+		
+		// declaring compare to outside of the if else 
+		// make if loop, where if user selects back to main, we break loop 
+		// MISTAKE we're calling from the whole toy list, not the specific search results list 
+	
+		
+		if (userInput < optionLength - 1) { //IF USER IS PURCHASING EVERYTHING IS HERE, add in greater than zero
+		String compareTo = searchResults.get(userInput - 1).getSerialNumber();
+		//rewrite this to take from search results now main toylist 
+		for (index = 0; index < toyList.size(); index ++) {
+		String currentToy = toyList.get(index).getSerialNumber();
+		toyQuantity = toyList.get(index).getAvailableCount();
+
+			if (currentToy.equals(compareTo)) {
+				
+				//debugging
+//				System.out.println("debugging... located at line 589");
+//				System.out.println(compareTo);
+//				System.out.println(currentToy); //it keeps calling toys not in the list, might have to make a separate lists with the choices 
+//				System.out.println(toyQuantity);
+
+					itemFound = true;
+					//purchasing item so that i can access compareTo
+					
+					// purchasing of item happens here
+		if (itemFound == true) {
+			if (toyQuantity > 0) {
+				
+				//debugging
+//				System.out.println("We have this many in the system: " + toyQuantity);
+//				System.out.println("The toy you're purchasing is: "  );
+				
+				//double check to see if we need to change from main toy to search results list, probably don't to
+				
+				for(rewrite = 0; rewrite < toyList.size(); rewrite++) {
+					String activeToy = toyList.get(rewrite).getSerialNumber();
+//					toyQuantity = toyList.get(rewrite).getAvailableCount();
+
+					if (activeToy.equals(compareTo)) {
+						toyList.get(rewrite).setAvailableCount(toyQuantity - 1);
+						appMenu.purchaseSuccess();
+						
+						//now we save 
+						try {
+							save();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							System.out.println("We couldn't save your changes.");
+						}
+						break;
+					}
+				}
+			}
+			else { //no more of item 
+				System.out.println("We're out of this item sorry!");
+			}
+		}
+					
+				}
+			}
+			
+		}
+		else if (userInput == optionLength){ 
+//			itemFound = false;
+			appMenu.backToSearchInventory();
 		}
 		
-//		if (searchToyType == 1) { // figures
-//			for (Toy toy:toyList) {	
-//				if (toy.getSerialNumber().charAt(0) == '0' || toy.getSerialNumber().charAt(0) == '1') {
-//					System.out.println(toy.toString());
-//				}
-//			}
+//		try { //get rid of this since we're calling a press enter
+//			System.out.println("\n");
+//			searchInventory();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			System.out.println("we couldn't send you back to the search inventory menu.");
 //		}
-//		else if (searchToyType == 2) { // animals
-//			for (Toy toy:toyList) {	
-//				if (toy.getSerialNumber().charAt(0) == '2' || toy.getSerialNumber().charAt(0) == '3') {
-//					System.out.println(toy.toString());
-//				}
-//			}
-//		}
-//		else if (searchToyType == 3) { // puzzles
-//			for (Toy toy:toyList) {	
-//				if (toy.getSerialNumber().charAt(0) == '4' || toy.getSerialNumber().charAt(0) == '5' || toy.getSerialNumber().charAt(0) == '6') {
-//					System.out.println(toy.toString());
-//				}
-//			}
-//		}
-//		else if (searchToyType == 4) { // boardgames
-//			for (Toy toy:toyList) {	
-//				if (toy.getSerialNumber().charAt(0) == '7' || toy.getSerialNumber().charAt(0) == '8' || toy.getSerialNumber().charAt(0) == '9') {
-//					System.out.println(toy.toString());
-//				}
-//			}
-//		}
-//		else {
-//			appMenu.invalidInput();
-//			appMenu.backToSearchInventory();
-//			try {
-//				searchInventory(); //something is still in the buffer and clear buffer isn't working
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//		}
+		
+		// a press enter
+				input.nextLine(); //clears the buffer 
+				appMenu.pressEnter();
+				String userChoice;
+				do {
+					userChoice = input.nextLine();
+				} while (userChoice.length() != 0);
+				try {
+					searchInventory();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("We couldn't send you back to the search inventory menu.");
+				}
+			
 	}
 	
 	public void save() throws Exception { //originally private

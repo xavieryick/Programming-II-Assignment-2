@@ -54,7 +54,7 @@ public class AppMenu {
 	}
 	
 	public void searchResults() {
-		System.out.println("Here are the search results");
+		System.out.println("\nHere are the search results: ");
 	}
 	
 	public void promptToySerialNumber() {
