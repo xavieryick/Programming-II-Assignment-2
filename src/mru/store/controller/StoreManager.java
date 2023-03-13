@@ -321,7 +321,7 @@ public class StoreManager {
 					appMenu.invalidInput();
 					appMenu.promptBoardGameMaximumPlayers();
 				}	
-			} while (minimumPlayers < maximumPlayers);
+			} while (maximumPlayers < minimumPlayers);
 			
 			
 			appMenu.promptBoardGameDesigners();
@@ -330,7 +330,8 @@ public class StoreManager {
 				designerNames = input.nextLine().trim();
 			} while (designerNames == null);
 		}
-		System.out.println("New toy added!");
+		System.out.println("New toy added!\n");
+		
 		
 		// saving changes
 		try {
@@ -338,13 +339,6 @@ public class StoreManager {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("We couldn't save your changes.");
-			appMenu.backToMainMenu();
-			try {
-				mainMenu();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				System.out.println("We couldn't send you back to the main menu.");
-			}
 		}
 		
 		// a press enter
@@ -460,10 +454,15 @@ public class StoreManager {
 	private void searchBySerialNumber(String serialNumber) {		
 		boolean itemFound = false;
 		int index = 0;
+		int toyQuantity = 0;
+		
+		int rewrite = 0;
 		for (index = 0; index < toyList.size(); index++) {
 			String currentToy = toyList.get(index).getSerialNumber();
+			toyQuantity = toyList.get(index).getAvailableCount();
 			if (currentToy.equals(serialNumber)) {
-				System.out.println(toy.toString());
+				System.out.println(toyList.get(index).toString());
+		
 				itemFound = true;
 				break;
 			}
@@ -471,17 +470,66 @@ public class StoreManager {
 		
 		if (itemFound = true) {
 			appMenu.purchaseMessage();
-			String removeChoice = input.nextLine().toLowerCase();
-			switch (removeChoice) {
+			String purchaseChoice = input.nextLine().toLowerCase();
+			switch (purchaseChoice) {
 				case "y":
-					//remove toy
-				
+					//check quantity 
+					if (toyQuantity > 0) {
+						
+						//debugging
+//						System.out.println("We have this many in the system: " + toyQuantity);
+//						System.out.println("The toy you're purchasing is: " + toy.toString());
+						
+						// rewrite using setter? 
+						for (rewrite = 0; rewrite< toyList.size(); rewrite++) {
+							String activeToy = toyList.get(rewrite).getSerialNumber();
+							if (activeToy.equals(serialNumber)) {
+								toyList.get(rewrite).setAvailableCount(toyQuantity - 1);
+								
+								//debugging 
+//								int newQuantity = toyQuantity - 1;
+//								System.out.println("There are only this many left: " + newQuantity); 
+								appMenu.purchaseSuccess();
+								
+								//is now inside because if there's zero toys why rewrite file
+								try {
+									save();
+			//						appMenu.backToMainMenu();
+			//						mainMenu();
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									System.out.println("We couldn't save your changes.");
+								}
+
+							}
+						}
+					}
+					else {
+						System.out.println("We're out of this toy sorry!");
+					}
+	
+						break;
+				case "n":
+					appMenu.purchaseFail();
+					
 			}
 			
-			
 		}
-	
 		
+		// back to the main menu 
+		// a press enter
+				appMenu.pressEnter();
+				String userChoice;
+				do {
+					userChoice = input.nextLine();
+				} while (userChoice.length() != 0);
+				try {
+					searchInventory();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("We couldn't send you back to the search inventory menu.");
+				}
+	
 //		if (!itemFound) {
 //				appMenu.itemNotFound();
 //				appMenu.backToSearchInventory();	
@@ -489,21 +537,30 @@ public class StoreManager {
 	}
 	
 	private void searchByToyName(String searchToyName) {
+		ArrayList<Toy> searchResults = new ArrayList<>();
+		int number = 1;
 		for (Toy toy:toyList) {
 			String currentToy = toy.getToyName();		
 			if (currentToy.toLowerCase().contains(searchToyName)) {
-				System.out.println(toy.toString());
+				System.out.println("\n(" + number + ") " + toy.toString());
+				number ++;
+				searchResults.add(toy);
 			}
 		}
+		
+		System.out.println("\n(" + number + ") " + "Back to the main menu.");
+		appMenu.selectOption();
 	}
 	
 	private void searchByToyType(int searchToyType) {
 		//change this to switch cases to make my life easier for user validation
+		appMenu.searchResults();
 		switch(searchToyType) {
 		
 		case 1:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '0' || toy.getSerialNumber().charAt(0) == '1') {
+					System.out.println("\n");
 					System.out.println(toy.toString());
 				}
 			}
@@ -511,6 +568,7 @@ public class StoreManager {
 		case 2:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '2' || toy.getSerialNumber().charAt(0) == '3') {
+					System.out.println("\n");
 					System.out.println(toy.toString());
 				}
 			}
@@ -519,6 +577,7 @@ public class StoreManager {
 		case 3:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '4' || toy.getSerialNumber().charAt(0) == '5' || toy.getSerialNumber().charAt(0) == '6') {
+					System.out.println("\n");
 					System.out.println(toy.toString());
 				}
 			}
@@ -527,6 +586,7 @@ public class StoreManager {
 		case 4:
 			for (Toy toy:toyList) {	
 				if (toy.getSerialNumber().charAt(0) == '7' || toy.getSerialNumber().charAt(0) == '8' || toy.getSerialNumber().charAt(0) == '9') {
+					System.out.println("\n");
 					System.out.println(toy.toString());
 				}
 			}
@@ -534,13 +594,15 @@ public class StoreManager {
 		
 		default:
 			appMenu.invalidInput();
-			appMenu.backToSearchInventory();
-			try {
-				searchInventory();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+		}
+		
+		try {
+			System.out.println("\n");
+			searchInventory();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("we couldn't send you back to the search inventory menu.");
 		}
 		
 //		if (searchToyType == 1) { // figures

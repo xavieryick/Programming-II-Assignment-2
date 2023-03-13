@@ -37,8 +37,12 @@ public class AppMenu {
 		System.out.println("Invalid input!");
 	}
 	
+	public void selectOption() {
+		System.out.println("\nSelect an item to purchase to go back to the main menu.");
+	}
+	
 	public void pressEnter() {
-		System.out.println("Press enter to continue.");
+		System.out.println("\nPress enter to continue.");
 	}
 	
 	public void backToSearchInventory() {
@@ -47,6 +51,10 @@ public class AppMenu {
 	
 	public void backToMainMenu() {
 		System.out.println("Sending you back to the main menu...");
+	}
+	
+	public void searchResults() {
+		System.out.println("Here are the search results");
 	}
 	
 	public void promptToySerialNumber() {
@@ -167,7 +175,7 @@ public class AppMenu {
 	}
 	
 	public void saveMessage() {
-		System.out.println("Saving into the database...\n");
+		System.out.println("Saving your choice into the database...\n");
 	}
 	
 	public void visitMessage() {
