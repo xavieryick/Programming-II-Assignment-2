@@ -40,6 +40,9 @@ public class StoreManager {
 //	private boolean firstRun = true;	// not sure if i can leave them up here
 	
 	Toy toy;
+	private String figureClassificationInput;
+	private String animalSizeInput;
+	private String puzzleTypeInput;
 	
 	public StoreManager() {
 		appMenu = new AppMenu();
@@ -329,13 +332,24 @@ public class StoreManager {
 			}
 		} while (appropriateAge <= 0);
 		
-		//figure, need to account for empty string
+
+		//figure
 		if (serialNumber.charAt(0) == '0' || serialNumber.charAt(0) == '1') {  //probably switch it to nextChar
 			appMenu.promptFigureClassification();
 			input.nextLine(); //clears the buffer
-			
+
 			do {
-				figureClassification = input.nextLine().toUpperCase().charAt(0);
+				figureClassificationInput = input.nextLine().toUpperCase();
+				
+				if (figureClassificationInput == "") {
+					appMenu.invalidInput();
+					appMenu.promptFigureClassification();
+					figureClassificationInput = input.nextLine().toUpperCase();
+				}
+				else {
+					figureClassification = figureClassificationInput.charAt(0);
+				}
+				
 				if (figureClassification != 'A' && figureClassification != 'D' && figureClassification != 'H') {
 					appMenu.invalidInput();
 					appMenu.promptFigureClassification();
@@ -348,7 +362,6 @@ public class StoreManager {
 		
 		//animal
 		if (serialNumber.charAt(0) == '2' || serialNumber.charAt(0) == '3') {
-			
 			input.nextLine();
 			do {
 				appMenu.promptAnimalMaterial();
@@ -361,39 +374,57 @@ public class StoreManager {
 			
 //			input.nextLine(); //clears the buffer, this one breaks a lot of stuff
 			appMenu.promptAnimalSize();
-			
-			
-			
+			input.nextLine(); //clears the buffer
+
 			do {
-				animalSize = input.nextLine().trim().toUpperCase().charAt(0);
-				String size = Character.toString(animalSize);
+				animalSizeInput = input.nextLine().toUpperCase();
 				
+				if (animalSizeInput == "") {
+					appMenu.invalidInput();
+					appMenu.promptAnimalSize();
+					animalSizeInput = input.nextLine().toUpperCase();
+				}
+				else {
+					animalSize = animalSizeInput.charAt(0);
+				}
 				
-				if (animalSize != 'S' && animalSize != 'M' && animalSize != 'L' || animalSize == ' ' ) {
+				if (animalSize != 'S' && animalSize != 'M' && animalSize != 'L') {
 					appMenu.invalidInput();
 					appMenu.promptAnimalSize();
 				}
-			} while (animalSize != 'S' && animalSize != 'M' && animalSize != 'L' || animalSize == ' ');
+			} while (animalSize != 'S' && animalSize != 'M' && animalSize != 'L');
 			String addAnimalSize = Character.toString(animalSize);
 			Toy addToy = new Animals(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,animalMaterial,addAnimalSize);
 			toyList.add(addToy);
 		}
-		
+					
 		// puzzle
 		if (serialNumber.charAt(0) == '4'|| serialNumber.charAt(0) == '5' || serialNumber.charAt(0) == '6') {
 			appMenu.promptPuzzleType();
-			input.nextLine();
+			input.nextLine(); //clears the buffer
+
 			do {
-				puzzleType = input.nextLine().trim().toUpperCase().charAt(0);
+				puzzleTypeInput = input.nextLine().toUpperCase();
+				
+				if (puzzleTypeInput == "") {
+					appMenu.invalidInput();
+					appMenu.promptPuzzleType();
+					puzzleTypeInput = input.nextLine().toUpperCase();
+				}
+				else {
+					puzzleType = puzzleTypeInput.charAt(0);
+				}
+				
 				if (puzzleType != 'M' && puzzleType != 'C' && puzzleType != 'L' && puzzleType != 'T' && puzzleType != 'R') {
 					appMenu.invalidInput();
 					appMenu.promptPuzzleType();
 				}
-			} 	while (puzzleType != 'M' && puzzleType != 'C' && puzzleType != 'L' && puzzleType != 'T' && puzzleType != 'R');
+			} while (puzzleType != 'M' && puzzleType != 'C' && puzzleType != 'L' && puzzleType != 'T' && puzzleType != 'R');
 			String addPuzzleType = Character.toString(puzzleType);
-			Toy addToy = new Puzzles(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,addPuzzleType);
+			Toy addToy = new Figures(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,addPuzzleType);
 			toyList.add(addToy);
-		}
+		}	
+			
 		
 		//board games
 		
