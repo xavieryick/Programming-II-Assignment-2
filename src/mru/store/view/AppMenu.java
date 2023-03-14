@@ -1,5 +1,12 @@
 package mru.store.view;
-
+/**
+ * This class represents the variety of messages we can print to the console 
+ * depending on what scenario we are in.
+ * 
+ * @author kaydence eng
+ * @author xavier yick
+ *
+ */
 public class AppMenu {
 
 	public AppMenu() {}

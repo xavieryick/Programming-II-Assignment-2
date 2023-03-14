@@ -10,7 +10,13 @@ import java.util.Scanner;
 
 import mru.store.model.*;
 import mru.store.view.AppMenu;
-
+/**
+ * This class represents the coordination of the view and model classes 
+ * to create a functional store. 
+ * @author kaydence eng
+ * @author xavier yick 
+ *
+ */
 public class StoreManager {
 	
 	private final String FILE_PATH = "res/toys.txt";
@@ -47,7 +53,10 @@ public class StoreManager {
 	private String toyPriceInput;
 	private String availableCountInput;
 	private String appropriateAgeInput;
-	
+	/**
+	 * This method is the constructor to initialize toyList, appMenu, and scanner.
+	 * It loads in the database and launches the application.
+	 */
 	public StoreManager() {
 		appMenu = new AppMenu();
 		toyList = new ArrayList<>();
@@ -67,7 +76,9 @@ public class StoreManager {
 			System.out.println("We couldn't launch the application!");
 		}
 	}
-	
+	/**
+	 * This method launches the application.
+	 */
 	public void launchApplication() { //originally has exception
 		appMenu.welcomeMessage();
 		try {
@@ -77,7 +88,9 @@ public class StoreManager {
 			System.out.println("We couldn't load up the main menu!");
 		} //threw an exception here 
 	}
-	
+	/**
+	 * This method displays the main menu and takes in user input for what they want to do.
+	 */
 	public void mainMenu() { //got rid of throws
 		appMenu.showMainMenu();
 		
@@ -123,7 +136,11 @@ public class StoreManager {
 			break;
 		}
 	}
-	
+	/**
+	 * This method displays the menu to search for toys and 
+	 * takes user input to determine what way we are going 
+	 * to look for toys.
+	 */
 	public void searchInventory() { //got rid of throws 
 		appMenu.showSearchInventory();
 		
@@ -206,7 +223,11 @@ public class StoreManager {
 			break;
 		}		
 	}
-	
+	/**
+	 * This methods adds a new toy based on user input.
+	 * 
+	 * @throws CustomException
+	 */
 	public void addToy() throws CustomException {
 		int index = 0;
 		boolean duplicate = false;
@@ -529,7 +550,9 @@ public class StoreManager {
 				}
 		
 	}
-	
+	/**
+	 * This method removes a toy based on a serial number.
+	 */
 	public void removeToy() {
 		serialNumber = null;
 		boolean currentToyFound = false;
@@ -650,7 +673,12 @@ public class StoreManager {
 			System.out.println("We couldn't send you back to the main menu.");
 		}
 	}	
-	
+	/**
+	 * This method searches the database using a serial number 
+	 * and prompts the user if they want to purchase a toy.
+	 * 
+	 * @param serialNumber
+	 */
 	private void searchBySerialNumber(String serialNumber) {		
 		boolean itemFound = false;
 		int index = 0;
@@ -750,7 +778,13 @@ public class StoreManager {
 //				appMenu.backToSearchInventory();	
 //			}
 	}
-	
+	/**
+	 * This method searches the database according to user inputed string, 
+	 * returns the search results, and prompts the user what toy they want to 
+	 * purchase.
+	 * 
+	 * @param searchToyName
+	 */
 	private void searchByToyName(String searchToyName) { 	//this method fully works unless java does a thing again 
 		ArrayList<Toy> searchResults = new ArrayList<>();
 		
@@ -877,7 +911,13 @@ public class StoreManager {
 		}
 		
 	}
-	
+	/**
+	 * This method searches the database based on the type of toy 
+	 * the user inputed, returns search results, and prompts the 
+	 * user if they want to purchase a toy.
+	 * 
+	 * @param searchToyType
+	 */
 	private void searchByToyType(int searchToyType) {
 		ArrayList<Toy> searchResults = new ArrayList<>();	//search results that display to the user 
 		ArrayList<Integer> options = new ArrayList<>(); //how many options we got 
@@ -1076,7 +1116,10 @@ public class StoreManager {
 				}
 			
 	}
-	
+	/**
+	 * This method saves user changes back into the toys.txt database.
+	 * @throws Exception
+	 */
 	public void save() throws Exception { //can't get rid of throw or else it break everything 
 		File db = new File(FILE_PATH);
 		PrintWriter printWriter = new PrintWriter(db);
@@ -1089,7 +1132,10 @@ public class StoreManager {
 		}
 		printWriter.close();
 	}
-	
+	/**
+	 * This method reads toys.txt and loads it into an array list of toys.
+	 * @throws Exception
+	 */
 	private void loadData() throws Exception{ // can't throw or else it'll break everything else 
 		File db = new File(FILE_PATH);
 		String currentLine;
