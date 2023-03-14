@@ -3,6 +3,7 @@ package mru.store.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -43,6 +44,9 @@ public class StoreManager {
 	private String figureClassificationInput;
 	private String animalSizeInput;
 	private String puzzleTypeInput;
+	private String toyPriceInput;
+	private String availableCountInput;
+	private String appropriateAgeInput;
 	
 	public StoreManager() {
 		appMenu = new AppMenu();
@@ -295,54 +299,38 @@ public class StoreManager {
 		
 		appMenu.promptToyPrice(); // this fully works 
 		do {
-		
-			while (!input.hasNextDouble()) { 
-				input.next();
+			toyPriceInput = input.nextLine().trim();
+			try {
+				toyPrice = Double.parseDouble(toyPriceInput);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
 				appMenu.invalidInput();
 				appMenu.promptToyPrice();
 			}
-			toyPrice = input.nextDouble();
-		
-		try {
-		toy.setToyPrice(toyPrice);	
-			} catch (Exception e){
-			e.printStackTrace();
-			appMenu.invalidInput();
-			appMenu.promptToyPrice();
-
-		}	
-
-			}while (toyPrice <= 0);
+		} while (toyPrice <= 0);
 		
 		appMenu.promptAvailableCount(); //sometimes it'll print invalid twice 
 		do {
-			while (!input.hasNextInt()) { 
-				input.nextLine();
+			availableCountInput = input.nextLine().trim();
+			try {
+				availableCount = Integer.parseInt(availableCountInput);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
 				appMenu.invalidInput();
 				appMenu.promptAvailableCount();
 			}
-			
-			availableCount = input.nextInt(); 
-			
-			if(availableCount <= 0) {
-				input.nextLine();
-				appMenu.invalidInput();
-				appMenu.promptAvailableCount();
-				}
-			
 		} while (availableCount <= 0);
 		
 		appMenu.promptAppropriateAge();
 		do {
-			while (!input.hasNextInt()) { 
-				input.next();
-				appMenu.invalidInput();
-				appMenu.promptAppropriateAge();
+			appropriateAgeInput = input.nextLine().trim();
+			try {
+				appropriateAge = Integer.parseInt(appropriateAgeInput);
 			}
-			
-			appropriateAge = input.nextInt();
-			
-			if (appropriateAge <= 0) {
+			catch (Exception e) {
+				e.printStackTrace();
 				appMenu.invalidInput();
 				appMenu.promptAppropriateAge();
 			}
