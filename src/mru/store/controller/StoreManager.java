@@ -17,6 +17,9 @@ public class StoreManager {
 	ArrayList<Toy> toyList;
 	private Scanner input;
 	
+	private long serialLong;
+	private boolean serialCheck;
+	
 	private String serialNumber;
 	private String toyName;
 	private String toyBrand;
@@ -109,13 +112,24 @@ public class StoreManager {
 		input.nextLine(); //clearing the buffer	
 			do {
 				appMenu.promptToySerialNumber();
-				serialNumber = input.nextLine().trim();
+				
+				while (!input.hasNextLong()) {
+					appMenu.invalidInput();
+					input.next(); //clearing the buffer
+//					System.out.println("Not a long");
+					appMenu.promptToySerialNumber();		
+				}
+				serialLong = input.nextLong();
+				serialNumber = Long.toString(serialLong);
+				
+//				serialNumber = input.nextLine().trim();
+				// add while loop to check that it's all ints
 				if (serialNumber.length() != 10) {
 					appMenu.promptInvalidSerialNumber();	 
 				}
 			} while (serialNumber.length() != 10);
 			
-			searchBySerialNumber(serialNumber);
+			searchBySerialNumber(serialNumber); //had issue where user couldn't enter y or n, but it's fixed 
 			break;
 			
 		case 2:
@@ -136,8 +150,8 @@ public class StoreManager {
 			appMenu.promptToyType();
 			
 			while (!input.hasNextInt()) {
-				appMenu.invalidInput();
 				input.nextLine(); //clearing the buffer 
+				appMenu.invalidInput();
 				appMenu.promptToyType();		
 			}
 			int searchToyType = input.nextInt();
@@ -160,6 +174,9 @@ public class StoreManager {
 		boolean duplicate = false;
 		
 		serialNumber = null;
+		serialCheck = true;
+		serialLong = 0;
+		
 		toyName = "";
 		toyBrand = "";
 		toyPrice = 0;
@@ -174,9 +191,20 @@ public class StoreManager {
 		puzzleType = 'x';
 		
 		appMenu.promptToySerialNumberAdd();
-			input.nextLine(); // clear the buffer
+//			input.nextLine(); // clear the buffer
 		do {
-			serialNumber = input.nextLine().trim();
+			
+			while (!input.hasNextLong()) {
+				appMenu.invalidInput();
+				input.next(); //clearing the buffer
+//				System.out.println("Not a long");
+				appMenu.promptToySerialNumberAdd();		
+			}
+			serialLong = input.nextLong();
+			serialNumber = Long.toString(serialLong);
+//			serialNumber = input.nextLine().trim();
+			
+			// make while loop to check for all ints 
 			if (serialNumber.length() != 10) {
 				appMenu.invalidInput();
 				appMenu.promptToySerialNumberAdd();
@@ -200,6 +228,7 @@ public class StoreManager {
 		
 		
 		// prompt toy name 
+		input.nextLine(); //clear buffer
 		do {
 			appMenu.promptToyNameAdd();
 			toyName = input.nextLine().trim();
@@ -286,18 +315,25 @@ public class StoreManager {
 		
 		appMenu.promptAppropriateAge();
 		do {
+			while (!input.hasNextInt()) { 
+				input.next();
+				appMenu.invalidInput();
+				appMenu.promptToyPrice();
+			}
+			
 			appropriateAge = input.nextInt();
+			
 			if (appropriateAge <= 0) {
 				appMenu.invalidInput();
 				appMenu.promptAppropriateAge();
 			}
 		} while (appropriateAge <= 0);
 		
-		//figure
+		//figure, need to account for empty string
 		if (serialNumber.charAt(0) == '0' || serialNumber.charAt(0) == '1') {  //probably switch it to nextChar
 			appMenu.promptFigureClassification();
 			input.nextLine(); //clears the buffer
-
+			
 			do {
 				figureClassification = input.nextLine().toUpperCase().charAt(0);
 				if (figureClassification != 'A' && figureClassification != 'D' && figureClassification != 'H') {
@@ -312,23 +348,32 @@ public class StoreManager {
 		
 		//animal
 		if (serialNumber.charAt(0) == '2' || serialNumber.charAt(0) == '3') {
-			appMenu.promptAnimalMaterial();
-			input.nextLine(); //clears the buffer
 			
+			input.nextLine();
 			do {
+				appMenu.promptAnimalMaterial();
 				animalMaterial = input.nextLine().trim().toUpperCase();
-			} while (animalMaterial == null);	
+				if(animalMaterial == null || animalMaterial == "") {
+					appMenu.invalidInput();
+					System.out.println("You are not allowed to leave this field blank. Please enter the toy material");
+				}
+			} while (animalMaterial == null || animalMaterial == "");	
 			
-//			input.nextLine(); //clears the buffer
+//			input.nextLine(); //clears the buffer, this one breaks a lot of stuff
 			appMenu.promptAnimalSize();
+			
+			
 			
 			do {
 				animalSize = input.nextLine().trim().toUpperCase().charAt(0);
-				if (animalSize != 'S' && animalSize != 'M' && animalSize != 'L') {
+				String size = Character.toString(animalSize);
+				
+				
+				if (animalSize != 'S' && animalSize != 'M' && animalSize != 'L' || animalSize == ' ' ) {
 					appMenu.invalidInput();
 					appMenu.promptAnimalSize();
 				}
-			} while (animalSize != 'S' && animalSize != 'M' && animalSize != 'L');
+			} while (animalSize != 'S' && animalSize != 'M' && animalSize != 'L' || animalSize == ' ');
 			String addAnimalSize = Character.toString(animalSize);
 			Toy addToy = new Animals(serialNumber,toyName,toyBrand,toyPrice,availableCount,appropriateAge,animalMaterial,addAnimalSize);
 			toyList.add(addToy);
@@ -439,7 +484,18 @@ public class StoreManager {
 		appMenu.promptToySerialNumberAdd();
 		input.nextLine(); //clears the buffer
 		do {
-			serialNumber = input.nextLine().trim();
+			//needs validation for SN
+			
+			while (!input.hasNextLong()) {
+				appMenu.invalidInput();
+				input.next(); //clearing the buffer
+//				System.out.println("Not a long");
+				appMenu.promptToySerialNumberAdd();		
+			}
+			serialLong = input.nextLong();
+			serialNumber = Long.toString(serialLong);
+			
+//			serialNumber = input.nextLine().trim();
 			if (serialNumber.length() != 10) {
 				appMenu.invalidInput();
 				appMenu.promptToySerialNumberAdd();
@@ -461,7 +517,7 @@ public class StoreManager {
 				}
 			}
 		}
-		
+		input.nextLine();
 		if (currentToyFound == true) {
 			appMenu.removeMessage();
 			String removeChoice = input.nextLine().toLowerCase();
@@ -513,6 +569,7 @@ public class StoreManager {
 		}
 		
 		// a press enter
+//		input.nextLine(); //buffer cleaner, remove me if we revert back to old remove style 
 		appMenu.pressEnter();
 		String userChoice;
 		do {
@@ -532,6 +589,8 @@ public class StoreManager {
 		int toyQuantity = 0;
 		
 		int rewrite = 0;
+		
+		input.nextLine();
 		for (index = 0; index < toyList.size(); index++) {
 			String currentToy = toyList.get(index).getSerialNumber();
 			toyQuantity = toyList.get(index).getAvailableCount(); 

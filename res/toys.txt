@@ -221,6 +221,4 @@
 7596463022;Strange Synergy;Gamefluent;80.41;6;7;1-7;Milla Baxter,Harpreet Reilly
 3337731148;Rabbit;Gameado;63.9;12;7;Fabric;S
 1396272830;Power Rangers;Game Mach;277.4;12;5;A
-1778180329;George Washington;Gamegenix;192.31;12;8;H
-4662861666;Acrostic;Game Pixel;5.0;11;9;T
-1234567890;dolly;matel;5.0;8;87;D
+4662861666;Acrostic;Game Pixel;5.0;9;9;T
