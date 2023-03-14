@@ -277,7 +277,6 @@ public class StoreManager {
 					appMenu.promptAvailableCount();
 				}
 			
-			
 //			if (availableCount <= 0) {
 //				appMenu.invalidInput();
 //				appMenu.promptAvailableCount();
