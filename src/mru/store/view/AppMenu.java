@@ -1,7 +1,6 @@
 package mru.store.view;
 /**
- * This class represents the variety of messages we can print to the console 
- * depending on what scenario we are in.
+ * This class displays the app menu. 
  * 
  * @author kaydence eng
  * @author xavier yick
@@ -10,13 +9,17 @@ package mru.store.view;
 public class AppMenu {
 
 	public AppMenu() {}
-	
+	/**
+	 * This method pints the welcome message.
+	 */
 	public void welcomeMessage() {
 		System.out.println("*****************************\n"
 						+  "* WELCOME TO THE TOY STORE! *\n"
 						+  "*****************************");
 	}
-	
+	/**
+	 * This method prints the main menu.
+	 */
 	public void showMainMenu() {
 		System.out.println("Hello!\n"
 				+ "How may we help you? \n"
@@ -28,7 +31,9 @@ public class AppMenu {
 				+ "\n"
 				+ "Please enter a number: ");
 	}
-
+	/**
+	 * This method prints the search inventory menu.
+	 */
 	public void showSearchInventory() {
 		System.out.println("Find toys with: \n"
 				+ "\n"
