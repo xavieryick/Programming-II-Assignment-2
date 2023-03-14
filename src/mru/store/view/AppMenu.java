@@ -158,6 +158,10 @@ public class AppMenu {
 		System.out.println("Do you want to purchase this toy? (Y/N): ");
 	}
 	
+	public void itemFound() {
+		System.out.println("\nItem Found!\n");
+	}
+	
 	public void itemNotFound() {
 		System.out.println("Item not found!");
 	}

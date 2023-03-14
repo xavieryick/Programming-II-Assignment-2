@@ -169,15 +169,26 @@ public class StoreManager {
 			searchByToyName(searchToyName); //doing a weird thing with needing to have to press space twice
 			break;
 			
-		case 3:
+		case 3: // will validate to make sure that user inputs a proper switch number
+			int searchToyType = 0;
 			appMenu.promptToyType();
-			
+			do{
+				
 			while (!input.hasNextInt()) {
 				input.nextLine(); //clearing the buffer 
 				appMenu.invalidInput();
 				appMenu.promptToyType();		
 			}
-			int searchToyType = input.nextInt();
+			
+			searchToyType = input.nextInt();
+			
+			if(searchToyType < 1 || searchToyType > 4) {
+				appMenu.invalidInput();
+				appMenu.promptToyType();		
+			}
+			
+			}while(searchToyType < 1 || searchToyType > 4);
+			
 			searchByToyType(searchToyType);
 			break;
 			
@@ -679,6 +690,7 @@ public class StoreManager {
 			String currentToy = toyList.get(index).getSerialNumber();
 			toyQuantity = toyList.get(index).getAvailableCount(); 
 			if (currentToy.equals(serialNumber)) {
+				appMenu.itemFound();
 				System.out.println(toyList.get(index).toString());
 		
 				itemFound = true;
@@ -987,6 +999,7 @@ public class StoreManager {
 		default:
 			appMenu.invalidInput();
 			appMenu.backToSearchInventory();
+			searchInventory();
 			
 		}
 		
