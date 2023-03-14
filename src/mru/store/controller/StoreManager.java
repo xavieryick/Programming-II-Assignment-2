@@ -64,12 +64,17 @@ public class StoreManager {
 		}
 	}
 	
-	public void launchApplication() throws Exception{
+	public void launchApplication() { //originally has exception
 		appMenu.welcomeMessage();
-		mainMenu(); //threw an exception here 
+		try {
+			mainMenu();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("We couldn't load up the main menu!");
+		} //threw an exception here 
 	}
 	
-	public void mainMenu() throws Exception {
+	public void mainMenu() { //got rid of throws
 		appMenu.showMainMenu();
 		
 		while (!input.hasNextInt()) { //this validation works
@@ -81,16 +86,31 @@ public class StoreManager {
 		int choice = input.nextInt();
 		switch (choice) {
 		case 1:
-			searchInventory();
+			try {
+				searchInventory();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("We couldn't load up the search inventory menu!");
+			}
 			break;
 		case 2:
-			addToy();
+			try {
+				addToy();
+			} catch (CustomException e) {
+				// TODO Auto-generated catch block
+				System.out.println("We couldn't call the add toy function!");
+			}
 			break;
 		case 3:
 			removeToy();
 			break;
 		case 4:
-			save(); //will use throw exception, might change to try catch
+			try {
+				save();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("We couldn't save your choices!");
+			} //will use throw exception, might change to try catch
 			appMenu.visitMessage(); // will tell user goodbye
 			break;
 		default:
@@ -100,10 +120,10 @@ public class StoreManager {
 		}
 	}
 	
-	public void searchInventory() throws Exception {
+	public void searchInventory() { //got rid of throws 
 		appMenu.showSearchInventory();
 		
-		while (!input.hasNextInt()) { //this validation works
+		while (!input.hasNextInt()) { //this validation works, no breaks??
 			input.nextLine();
 			appMenu.invalidInput();
 			appMenu.showSearchInventory();
@@ -293,7 +313,7 @@ public class StoreManager {
 		appMenu.promptAvailableCount(); //sometimes it'll print invalid twice 
 		do {
 			while (!input.hasNextInt()) { 
-				System.out.println("Error catch 1");
+//				System.out.println("Error catch 1");
 				input.nextLine();
 				appMenu.invalidInput();
 				appMenu.promptAvailableCount();
@@ -303,7 +323,7 @@ public class StoreManager {
 			availableCount = input.nextInt(); 
 			
 			if(availableCount < 0) {
-				System.out.println("Error catch 2");
+//				System.out.println("Error catch 2");
 				input.nextLine();
 					appMenu.invalidInput();
 					appMenu.promptAvailableCount();
@@ -459,15 +479,34 @@ public class StoreManager {
 				try {
 					// print out what type of toy it is before hand 
 					// need to check for toy before hand, the cast from that toy to BoardGame 
+					// we cast grabbed toy back to orginal toy, then take that and cast it again to bg 
 //					System.out.println("min " + minimumPlayers);
 //					System.out.println("max " + maximumPlayers);
-
-					BoardGames boardGame = (BoardGames)toy;
+					// will not work 
 					
-					 boardGame.setMaxPlayerCount(maximumPlayers);
+//					if (toy instanceof Animals) {
+//						
+//						
+//					}else if (toy instanceof BoardGames) {
+//						
+//						
+//					}else if (toy instanceof Figures) {
+//						
+//						
+//					}else if (toy instanceof Puzzles) {
+//						
+//					}
+					
+					// so this works
+					// might want to change the names here to what the user really put
+					Toy comparison = new BoardGames(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, minimumPlayers, maximumPlayers, "woody allen");
+				
+//					BoardGames boardGame = (BoardGames)toy;
+					BoardGames boardGame = (BoardGames)comparison;
+					boardGame.setMaxPlayerCount(maximumPlayers);
 				}catch (Exception e){
 					e.printStackTrace();
-					
+					input.nextLine();
 					appMenu.invalidInput();
 					appMenu.promptBoardGameMaximumPlayers();
 				}	
@@ -548,11 +587,24 @@ public class StoreManager {
 				}
 			}
 		}
-		input.nextLine(); //need this or else it'll skip switch case 
+		input.nextLine(); 
 		if (currentToyFound == true) {
+				
 			appMenu.removeMessage();
-			String removeChoice = input.nextLine().toLowerCase();
+			String userRemove = input.nextLine().toLowerCase();
+			
+			//validation for y or n 
+			
+			while(!userRemove.equalsIgnoreCase("y") && !userRemove.equalsIgnoreCase("n")) {
+				appMenu.invalidInput();
+				appMenu.removeMessage();
+				userRemove = input.nextLine().toLowerCase();
+			}
+			
+			String removeChoice = userRemove;
+			
 			switch (removeChoice) {
+			
 			case "y":
 				// remove toy
 				toyList.remove(index);
@@ -588,12 +640,13 @@ public class StoreManager {
 				break;
 				
 			// user validation stuff for a non-"y/n" case
-//			default:
-//				appMenu.invalidInput();
-//				appMenu.removeMessage();
-//				removeChoice = input.nextLine().toLowerCase();
-//				break;
+			default:
+				appMenu.invalidInput();
+//				removeToy();
+				break;
 			}
+				
+			
 		}
 		else {
 			appMenu.itemNotFound();
@@ -633,9 +686,19 @@ public class StoreManager {
 			}
 		}
 		
-		if (itemFound = true) { //make a default here 
-			appMenu.purchaseMessage();
-			String purchaseChoice = input.nextLine().toLowerCase();
+		if (itemFound == true) { //make a default here 
+			appMenu.removeMessage();
+			String userRemove = input.nextLine().toLowerCase();
+			
+			//validation for y or n 
+			
+			while(!userRemove.equalsIgnoreCase("y") && !userRemove.equalsIgnoreCase("n")) {
+				appMenu.invalidInput();
+				appMenu.removeMessage();
+				userRemove = input.nextLine().toLowerCase();
+			}
+			
+			String purchaseChoice = userRemove;
 			switch (purchaseChoice) {
 				case "y":
 					//check quantity 
@@ -679,6 +742,8 @@ public class StoreManager {
 					
 			}
 			
+		}else {
+			System.out.println("We couldn't find any items with that serial number!");
 		}
 		
 		// back to the search inventory  
@@ -826,17 +891,6 @@ public class StoreManager {
 			System.out.println("We couldn't send you back to the search inventory menu.");
 		}
 		
-		// u can turn this into real code or i'll do it when i get back 
-		// userChoice = next int 
-		// int index = 0
-		// for (Toy toy: searchResults) 
-		// comparedTo = toy.get(userChoice -1).getSerialNumber 
-		// 
-		// for (index = 0 ; thing < list length: index ++ ) comparing search results to old list 
-		// currentToy = toy.get(index).getSN 
-		// if comparedTo.eqauls(currentToy)
-		// take quantity test and rewrite toy list code from search by SN method and paste it here 
-		// clear list at the end 
 	}
 	
 	private void searchByToyType(int searchToyType) {
@@ -1020,13 +1074,6 @@ public class StoreManager {
 			appMenu.backToSearchInventory();
 		}
 		
-//		try { //get rid of this since we're calling a press enter
-//			System.out.println("\n");
-//			searchInventory();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			System.out.println("we couldn't send you back to the search inventory menu.");
-//		}
 		
 		// a press enter
 				input.nextLine(); //clears the buffer 
@@ -1044,7 +1091,7 @@ public class StoreManager {
 			
 	}
 	
-	public void save() throws Exception { //originally private
+	public void save() throws Exception { //can't get rid of throw or else it break everything 
 		File db = new File(FILE_PATH);
 		PrintWriter printWriter = new PrintWriter(db);
 		
@@ -1057,7 +1104,7 @@ public class StoreManager {
 		printWriter.close();
 	}
 	
-	private void loadData() throws Exception{
+	private void loadData() throws Exception{ // can't throw or else it'll break everything else 
 		File db = new File(FILE_PATH);
 		String currentLine;
 		String[] splitLine;
@@ -1121,7 +1168,7 @@ public class StoreManager {
 					toy = new BoardGames(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, minimumPlayerCount, maximumPlayerCount, boardGameDesigners);
 				}
 					toyList.add(toy); 
-//					System.out.println(toyList);
+
 			}
 			fileReader.close();
 		}

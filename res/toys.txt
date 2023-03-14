@@ -21,7 +21,7 @@
 7235647474;13 Dead End Drive;Game Assassin;55.18;10;9;1-8;Emeli Davis
 6045331143;Computer puzzle game;Game Survival;98.77;13;4;T
 5645765685;Ball-in-a-maze puzzle;Game Zombie;206.65;9;2;C
-8947640910;Exploding Kittens;Game Pixel;73.07;9;3;2-4;Haniya Woodley,Ruairidh Larsen
+8947640910;Exploding Kittens;Game Pixel;73.07;8;3;2-4;Haniya Woodley,Ruairidh Larsen
 1167480102;Transformers;Game Zombie;9.41;10;9;H
 9258568559;Jenga;Game Reboot;49.34;10;7;2-7;Maryam Mcdonnell,Shanaya Walter
 2804598463;Kangaroo;Gamefluent;289.37;14;6;Wooden;S

@@ -179,7 +179,7 @@ public class AppMenu {
 	}
 	
 	public void saveMessage() {
-		System.out.println("Saving your choice into the database...\n");
+		System.out.println("Saving your choices into the database...\n");
 	}
 	
 	public void visitMessage() {
