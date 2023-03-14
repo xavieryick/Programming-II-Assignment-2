@@ -517,7 +517,7 @@ public class StoreManager {
 				}
 			}
 		}
-		input.nextLine();
+		input.nextLine(); //need this or else it'll skip switch case 
 		if (currentToyFound == true) {
 			appMenu.removeMessage();
 			String removeChoice = input.nextLine().toLowerCase();
