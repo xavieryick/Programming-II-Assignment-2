@@ -39,8 +39,8 @@ public abstract class Toy {
 		return toyBrand;
 	}
 	public void setToyPrice(double toyPrice) throws CustomException {
-		if (toyPrice <= 0) {
-			throw new CustomException("Prices can't be zero or negative!"); 
+		if (toyPrice < 0) {
+			throw new CustomException("Prices must be a number that can't be negative!"); 
 		}
 		this.toyPrice = toyPrice;
 	}

@@ -155,7 +155,10 @@ public class StoreManager {
 		}		
 	}
 	
-	public void addToy() {
+	public void addToy() throws CustomException {
+		int index = 0;
+		boolean duplicate = false;
+		
 		serialNumber = null;
 		toyName = "";
 		toyBrand = "";
@@ -178,35 +181,74 @@ public class StoreManager {
 				appMenu.invalidInput();
 				appMenu.promptToySerialNumberAdd();
 			}
-		} while (serialNumber == null || serialNumber.length() != 10);
+			else {
+				// SN duplicate check finished 
+				for(Toy toy: toyList) {
+					String currentToy = toy.getSerialNumber();
+					if (currentToy.equals(serialNumber)) {
+						appMenu.duplicateSerialNumber();
+						appMenu.promptToySerialNumberAdd();
+						duplicate = true;
+						break;
+					}
+					else {
+						duplicate = false;
+					}
+				}
+			}
+		} while (serialNumber == null || serialNumber.length() != 10 || duplicate == true);
 		
-		appMenu.promptToyNameAdd();
+		
+		// prompt toy name 
 		do {
+			appMenu.promptToyNameAdd();
 			toyName = input.nextLine().trim();
-		} while (toyName == null && toyName == "");
+			
+			if(toyName == null || toyName == "") {
+				appMenu.invalidInput();
+				System.out.println("Please enter a toy name! This field can't be left blank!");
+			}
+			
+		} while (toyName == null || toyName == "");
 		
-		appMenu.promptToyBrand();
+		// prompt toy brand 
+		
+	
 		do {
+			appMenu.promptToyBrand();
 			toyBrand = input.nextLine().trim();
-		} while (toyBrand == null && toyBrand == "");
+			
+			if(toyBrand == null || toyBrand == "") {
+				appMenu.invalidInput();
+				System.out.println("Please enter a toy brand! This field can't be left blank!");
+			}
+			
+		} while (toyBrand == null || toyBrand == "");
 		
 		//INSERT TRY AND CATCH HERE FOR PRICE
 		//ask him about this if this is ok since he wants custom exceptions
-		appMenu.promptToyPrice();
 		
+		//need to do int check
+		
+		appMenu.promptToyPrice(); // this fully works 
 		do {
+		
+		while (!input.hasNextInt()) { 
+			input.next();
+			appMenu.invalidInput();
+			appMenu.promptToyPrice();
+		}
 		toyPrice = input.nextDouble();
 		
 		try {
 		toy.setToyPrice(toyPrice);	
 			} catch (Exception e){
-				System.out.println(toy);
 			e.printStackTrace();
-			
-			appMenu.invalidInput();
 			appMenu.promptToyPrice();
+
 		}	
-			}while (toyPrice <=0);
+
+			}while (toyPrice < 0);
 		
 //		do {
 //			toyPrice = input.nextDouble();
@@ -216,14 +258,32 @@ public class StoreManager {
 //			}
 //		} while (toyPrice <= 0);
 		
-		appMenu.promptAvailableCount();
+		appMenu.promptAvailableCount(); //sometimes it'll print invalid twice 
 		do {
-			availableCount = input.nextInt();
-			if (availableCount <= 0) {
+			while (!input.hasNextInt()) { 
+				System.out.println("Error catch 1");
+				input.nextLine();
 				appMenu.invalidInput();
 				appMenu.promptAvailableCount();
+				
 			}
-		} while (availableCount <= 0);
+			
+			availableCount = input.nextInt(); 
+			
+			if(availableCount < 0) {
+				System.out.println("Error catch 2");
+				input.nextLine();
+					appMenu.invalidInput();
+					appMenu.promptAvailableCount();
+				}
+			
+			
+//			if (availableCount <= 0) {
+//				appMenu.invalidInput();
+//				appMenu.promptAvailableCount();
+//			}
+			
+		} while (availableCount < 0);
 		
 		appMenu.promptAppropriateAge();
 		do {
@@ -324,6 +384,9 @@ public class StoreManager {
 				try {
 					// print out what type of toy it is before hand 
 					// need to check for toy before hand, the cast from that toy to BoardGame 
+//					System.out.println("min " + minimumPlayers);
+//					System.out.println("max " + maximumPlayers);
+
 					BoardGames boardGame = (BoardGames)toy;
 					
 					 boardGame.setMaxPlayerCount(maximumPlayers);

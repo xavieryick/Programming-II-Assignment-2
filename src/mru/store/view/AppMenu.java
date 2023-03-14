@@ -65,6 +65,10 @@ public class AppMenu {
 		System.out.println("Invalid serial number, serial number must be 10 digits long!");
 	}
 	
+	public void duplicateSerialNumber() {
+		System.out.println("This serial number is already taken, enter a different one please!");
+	}
+	
 	public void promptToyName() {
 		System.out.println("Please enter a toy name: ");
 	}
