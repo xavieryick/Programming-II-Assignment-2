@@ -296,63 +296,48 @@ public class StoreManager {
 		appMenu.promptToyPrice(); // this fully works 
 		do {
 		
-		while (!input.hasNextInt()) { 
-			input.next();
-			appMenu.invalidInput();
-			appMenu.promptToyPrice();
-		}
-		toyPrice = input.nextDouble();
+			while (!input.hasNextDouble()) { 
+				input.next();
+				appMenu.invalidInput();
+				appMenu.promptToyPrice();
+			}
+			toyPrice = input.nextDouble();
 		
 		try {
 		toy.setToyPrice(toyPrice);	
 			} catch (Exception e){
 			e.printStackTrace();
+			appMenu.invalidInput();
 			appMenu.promptToyPrice();
 
 		}	
 
-			}while (toyPrice < 0);
-		
-//		do {
-//			toyPrice = input.nextDouble();
-//			if (toyPrice <= 0) {
-//				appMenu.invalidInput();
-//				appMenu.promptToyPrice();
-//			}
-//		} while (toyPrice <= 0);
+			}while (toyPrice <= 0);
 		
 		appMenu.promptAvailableCount(); //sometimes it'll print invalid twice 
 		do {
 			while (!input.hasNextInt()) { 
-//				System.out.println("Error catch 1");
 				input.nextLine();
 				appMenu.invalidInput();
 				appMenu.promptAvailableCount();
-				
 			}
 			
 			availableCount = input.nextInt(); 
 			
-			if(availableCount < 0) {
-//				System.out.println("Error catch 2");
+			if(availableCount <= 0) {
 				input.nextLine();
-					appMenu.invalidInput();
-					appMenu.promptAvailableCount();
+				appMenu.invalidInput();
+				appMenu.promptAvailableCount();
 				}
 			
-//			if (availableCount <= 0) {
-//				appMenu.invalidInput();
-//				appMenu.promptAvailableCount();
-//			}
-			
-		} while (availableCount < 0);
+		} while (availableCount <= 0);
 		
 		appMenu.promptAppropriateAge();
 		do {
 			while (!input.hasNextInt()) { 
 				input.next();
 				appMenu.invalidInput();
-				appMenu.promptToyPrice();
+				appMenu.promptAppropriateAge();
 			}
 			
 			appropriateAge = input.nextInt();
