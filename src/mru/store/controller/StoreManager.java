@@ -161,11 +161,11 @@ public class StoreManager {
 				
 				// to check that serial number is ten digits long
 				if (serialNumber.length() != 10) {
-					System.out.println(serialNumber.length());
+//					System.out.println(serialNumber.length());
 					appMenu.promptInvalidSerialNumber();	 
 				}
 				
-				//requires press enter twice :(
+				//requires press enter twice
 				while(!validSN) {
 					try {
 					Long.parseLong(serialNumber);
@@ -239,7 +239,7 @@ public class StoreManager {
 	public void addToy() throws CustomException {
 		int index = 0;
 		boolean duplicate = false;
-		
+		boolean validSN = false;
 		// for SN checking
 		serialNumber = null;
 		serialCheck = true;
@@ -262,26 +262,28 @@ public class StoreManager {
 		// prompt for serial number 
 		appMenu.promptToySerialNumberAdd();
 		do {
-			while (!input.hasNextLong()) {
+				serialNumber = input.next().trim();
+				
+				// to check that serial number is ten digits long
+				if (serialNumber.length() != 10) {
+					System.out.println(serialNumber.length());
+					appMenu.promptInvalidSerialNumber();	 
+				}
+			
+			while(!validSN) {
+				try {
+				Long.parseLong(serialNumber);
+				validSN = true;
+			}
+			catch(NumberFormatException e) {
 				appMenu.invalidInput();
-				input.next(); //clearing the buffer
-				appMenu.promptToySerialNumberAdd();		
+				validSN = false;
+				appMenu.promptToySerialNumber();
+				serialNumber = input.next().trim();
+				}
 			}
 			
-			// flipped the order because if SN starts with 0, 0 gets deleted
-			
-			serialLong = input.nextLong();
-			serialNumber = Long.toString(serialLong);
-			
-//			serialNumber = Long.toString(serialLong);
-//			serialNumber = input.nextLine().trim();
-			
-			// to check that serial number is ten digits long 
-			if (serialNumber.length() != 10) {
-				appMenu.invalidInput();
-				appMenu.promptToySerialNumberAdd();
-			}
-			else {
+			if(validSN == true) {
 				// to check if SN is taken by another toy
 				for(Toy toy: toyList) {
 					String currentToy = toy.getSerialNumber();
@@ -296,7 +298,9 @@ public class StoreManager {
 					}
 				}
 			}
-		} while (serialNumber == null || serialNumber.length() != 10 || duplicate == true);
+				
+			
+		} while (serialNumber == null || serialNumber.length() != 10 || duplicate == true || validSN == false);
 		
 		
 		// prompt toy name 
@@ -526,30 +530,36 @@ public class StoreManager {
 	 */
 	public void removeToy() {
 		serialNumber = null;
+		boolean validSN = false;
 		boolean currentToyFound = false;
 		int index = 0;
 		
-		appMenu.promptToySerialNumberAdd();
 		input.nextLine(); //clears the buffer
 		do {
 			//SN validation
+			appMenu.promptToySerialNumberAdd();		
+			serialNumber = input.next().trim();
 			
-			while (!input.hasNextLong()) {
-				appMenu.invalidInput();
-				input.next(); //clearing the buffer
-				appMenu.promptToySerialNumberAdd();		
-			}
-			// long is used for user input validation
-			// string is used for comparison of toy list
-			serialLong = input.nextLong();
-			serialNumber = Long.toString(serialLong);
-			
-			// checking length of serial number
+			// to check that serial number is ten digits long
 			if (serialNumber.length() != 10) {
-				appMenu.invalidInput();
-				appMenu.promptToySerialNumberAdd();
+				System.out.println(serialNumber.length());
+				appMenu.promptInvalidSerialNumber();	 
 			}
-		} while (serialNumber == null || serialNumber.length() != 10);
+			
+			//requires press enter twice
+			while(!validSN) {
+				try {
+				Long.parseLong(serialNumber);
+				validSN = true;
+			}
+			catch(NumberFormatException e) {
+				appMenu.invalidInput();
+				validSN = false;
+				appMenu.promptToySerialNumber();
+				serialNumber = input.next().trim();
+				}
+			}
+		} while (serialNumber == null || serialNumber.length() != 10 || validSN == false);
 		
 		if (serialNumber.length() == 10) {	
 			// serialNumber is input. currentToy is serialNumber in toyList.
@@ -651,14 +661,14 @@ public class StoreManager {
 		}
 		// item has been found, prompt purchase code
 		if (itemFound == true) { 
-			appMenu.removeMessage();
+			appMenu.purchaseMessage();
 			String userRemove = input.nextLine().toLowerCase();
 			
 			//validation for y or n 
 			
 			while(!userRemove.equalsIgnoreCase("y") && !userRemove.equalsIgnoreCase("n")) {
 				appMenu.invalidInput();
-				appMenu.removeMessage();
+				appMenu.purchaseMessage();
 				userRemove = input.nextLine().toLowerCase();
 			}
 			
@@ -751,6 +761,7 @@ public class StoreManager {
 		
 		System.out.println("\n(" + number + ") " + "Back to the search main menu.");
 //		input.nextLine(); // clearing buffer bc if you type multi phrase search it breaks
+//		System.out.println(searchResults);
 		appMenu.selectOption();
 		
 		while (!input.hasNextInt()) { //this validation works
@@ -773,7 +784,7 @@ public class StoreManager {
 		// MISTAKE we're calling from the whole toy list, not the specific search results list 
 	
 		
-		if (userInput < optionLength - 1) { //IF USER IS PURCHASING EVERYTHING IS HERE, add in greater than zero
+		if (userInput < optionLength ) { //IF USER IS PURCHASING EVERYTHING IS HERE, add in greater than zero
 		String compareTo = searchResults.get(userInput - 1).getSerialNumber();
 		//rewrite this to take from search results now main toylist 
 		for (index = 0; index < toyList.size(); index ++) {
@@ -829,9 +840,15 @@ public class StoreManager {
 			}
 			
 		}
-		else if (userInput == optionLength){ 
-//			itemFound = false;
-			appMenu.backToSearchInventory();
+		else if (userInput >= optionLength){ 
+			if(userInput == optionLength) {
+				appMenu.backToSearchInventory();
+
+			}else {
+				appMenu.invalidInput();
+				appMenu.backToSearchInventory();
+			}
+			
 		}
 		
 		
@@ -980,7 +997,7 @@ public class StoreManager {
 		// MISTAKE we're calling from the whole toy list, not the specific search results list 
 	
 		
-		if (userInput < optionLength - 1) { //IF USER IS PURCHASING EVERYTHING IS HERE, add in greater than zero
+		if (userInput < optionLength) { //IF USER IS PURCHASING EVERYTHING IS HERE, add in greater than zero
 		String compareTo = searchResults.get(userInput - 1).getSerialNumber();
 		//rewrite this to take from search results now main toylist 
 		for (index = 0; index < toyList.size(); index ++) {
@@ -1035,9 +1052,15 @@ public class StoreManager {
 			}
 			
 		}
-		else if (userInput == optionLength){ 
-//			itemFound = false;
-			appMenu.backToSearchInventory();
+		else if (userInput >= optionLength){ 
+			if(userInput == optionLength) {
+				appMenu.backToSearchInventory();
+
+			}else {
+				appMenu.invalidInput();
+				appMenu.backToSearchInventory();
+			}
+			
 		}
 		
 		

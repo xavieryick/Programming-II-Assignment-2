@@ -1,6 +1,6 @@
 2835360879;Cow;Game Assassin;19.52;3;7;Plastic;M
 8616804705;Mikado;Game Pixel;9.32;9;9;1-4;Haniya Woodley
-3066990646;Horse;Gamescape;165.61;1;7;Wooden;L
+3066990646;Horse;Gamescape;165.61;0;7;Wooden;L
 5726898779;Pocket Cube;Game Orc;42.83;0;4;M
 3015547049;Dove;Game Zombie;24.55;0;9;Wooden;S
 1147205649;Ninja Turtles;Gamezoid;46.15;0;6;A
@@ -35,7 +35,7 @@
 6596226544;Rattle puzzle;Gameara;43.21;5;8;T
 1731377211;Groovy Girls;Game Loop;80.66;3;5;H
 8934865506;Djambi;Game Shadow;78.76;3;6;2-6;T-Jay Harper,Marshall Swanson
-7393662390;Star Wars Tactics;Game Loop;3.44;1;2;1-5;Ruairidh Larsen
+7393662390;Star Wars Tactics;Game Loop;3.44;0;2;1-5;Ruairidh Larsen
 9399563748;Monopoly;Game Survival;47.52;4;3;2-5;Usama Salas
 4831187177;Tiling puzzle;Game Rush;85.6;1;6;L
 1772751359;Teddy bear;Game Reboot;221.46;8;3;H
@@ -79,7 +79,7 @@
 8362861720;Heroscape;Game Pixel;132.21;6;8;2-3;Lana Thatcher
 0346965428;Army men;Gamezoid;238.78;8;4;D
 4463241698;KenKen;Game Assassin;93.29;5;6;T
-2797548530;Mouse;Gameara;14.53;14;5;Fabric;L
+2797548530;Mouse;Gameara;14.53;13;5;Fabric;L
 7586140827;Battle Sheep;Game Sensor;266.57;14;9;2-5;Shakeel Mcintyre
 3690664040;Turtle;Game Sensor;223.01;13;8;Fabric;M
 7001540358;Ghettopoly;Gamen;7.35;10;5;2-5;T-Jay Harper
@@ -129,7 +129,7 @@
 5637161167;Kakuro;Gamearo;0.33;14;5;M
 6957748827;Rubik's Revenge;Game Loop;73.88;13;9;C
 9108635194;Spy Alley;Game Orc;29.47;1;4;2-4;Rhiann Worthington,Milla Baxter
-8076566788;Star Wars Epic Duels;Game Reboot;285.25;8;9;2-3;Troy Mcbride
+8076566788;Star Wars Epic Duels;Game Reboot;285.25;6;9;2-3;Troy Mcbride
 2342281667;Lion;Game Throne;14.07;14;10;Wooden;M
 8573975959;War on Terror;Game Survival;104.63;7;9;2-7;Maryam Mcdonnell,Osian Hendricks
 0496522522;Anatomically correct doll;Game Rush;171.46;13;8;H
@@ -211,15 +211,15 @@
 7691410700;Hey, That's My Fish!;Game Buff;293.78;9;4;1-7;Barney Lugo
 2629048960;Ducks;Gamezoid;47.43;1;6;Fabric;S
 5247156109;Verbal arithmetic;Gameado;8.29;11;9;M
-7935086963;StarCraft: The Board Game;Gameado;50.81;5;7;1-8;Emeli Davis
+7935086963;StarCraft: The Board Game;Gameado;50.81;4;7;1-8;Emeli Davis
 4585852723;Tsumego;Game Sky;292.41;7;8;M
 9514194360;King Oil;Game Loop;9.65;12;7;2-4;Haniya Woodley
 5279323659;Einstein's Puzzle;Game Demon;182.61;3;6;T
-4134304987;Pentomino;Game Reboot;59.3;9;8;L
+4134304987;Pentomino;Game Reboot;59.3;8;8;L
 8085889603;1313 Dead End Drive;Game Zombie;43.54;10;10;1-5;Marshall Swanson,Mylie Campbell
 3737738613;Deer;Game Pixel;182.28;5;8;Fabric;L
 7596463022;Strange Synergy;Gamefluent;80.41;6;7;1-7;Milla Baxter,Harpreet Reilly
 3337731148;Rabbit;Gameado;63.9;12;7;Fabric;S
 1396272830;Power Rangers;Game Mach;277.4;12;5;A
 1778180329;George Washington;Gamegenix;192.31;12;8;H
-4662861666;Acrostic;Game Pixel;5.0;9;9;T
+4662861666;Acrostic;Game Pixel;5.0;8;9;T
