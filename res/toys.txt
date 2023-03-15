@@ -26,7 +26,6 @@
 9258568559;Jenga;Game Reboot;49.34;10;7;2-7;Maryam Mcdonnell,Shanaya Walter
 2804598463;Kangaroo;Gamefluent;289.37;14;6;Wooden;S
 5239019250;Nob Yoshigahara Puzzle Design Competition;Game Zombie;67.2;5;3;M
-6001104201;Tour puzzle;Gamefluent;114.71;13;6;T
 1989637627;Abraham Lincoln;Game Throne;60.1;5;7;H
 5446463966;Rubik's Magic;Game Sensor;15.71;7;2;C
 5972333473;Knights and knaves;Game Buff;106.99;2;7;M
@@ -218,8 +217,8 @@
 4134304987;Pentomino;Game Reboot;59.3;8;8;L
 8085889603;1313 Dead End Drive;Game Zombie;43.54;10;10;1-5;Marshall Swanson,Mylie Campbell
 3737738613;Deer;Game Pixel;182.28;5;8;Fabric;L
-7596463022;Strange Synergy;Gamefluent;80.41;6;7;1-7;Milla Baxter,Harpreet Reilly
+7596463022;Strange Synergy;Gamefluent;80.41;4;7;1-7;Milla Baxter,Harpreet Reilly
 3337731148;Rabbit;Gameado;63.9;12;7;Fabric;S
 1396272830;Power Rangers;Game Mach;277.4;12;5;A
-1778180329;George Washington;Gamegenix;192.31;12;8;H
+1778180329;George Washington;Gamegenix;192.31;11;8;H
 4662861666;Acrostic;Game Pixel;5.0;8;9;T
