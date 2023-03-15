@@ -141,11 +141,11 @@ public class StoreManager {
 	 * takes user input to determine what way we are going 
 	 * to look for toys.
 	 */
-	public void searchInventory() { //got rid of throws 
+	public void searchInventory() { 
 		appMenu.showSearchInventory();
 		
-		while (!input.hasNextInt()) { //this validation works, no breaks??
-			input.nextLine();
+		while (!input.hasNextInt()) { 
+			input.nextLine(); // clears the buffer
 			appMenu.invalidInput();
 			appMenu.showSearchInventory();
 		}
@@ -153,25 +153,33 @@ public class StoreManager {
 		int choice = input.nextInt();
 		switch (choice) {
 		case 1:	
-		input.nextLine(); //clearing the buffer	
+			boolean validSN = false;
+			input.nextLine(); //clearing the buffer	
 			do {
 				appMenu.promptToySerialNumber();
+				serialNumber = input.next().trim();
 				
-				while (!input.hasNextLong()) {
-					appMenu.invalidInput();
-					input.next(); //clearing the buffer
-//					System.out.println("Not a long");
-					appMenu.promptToySerialNumber();		
-				}
-				serialLong = input.nextLong();
-				serialNumber = Long.toString(serialLong);
-				
-//				serialNumber = input.nextLine().trim();
-				// add while loop to check that it's all ints
+				// to check that serial number is ten digits long
 				if (serialNumber.length() != 10) {
+					System.out.println(serialNumber.length());
 					appMenu.promptInvalidSerialNumber();	 
 				}
-			} while (serialNumber.length() != 10);
+				
+				//requires press enter twice :(
+				while(!validSN) {
+					try {
+					Long.parseLong(serialNumber);
+					validSN = true;
+				}
+				catch(NumberFormatException e) {
+					appMenu.invalidInput();
+					validSN = false;
+					appMenu.promptToySerialNumber();
+					serialNumber = input.next().trim();
+					}
+				}
+				
+			} while (serialNumber.length() != 10 && validSN == true);
 			
 			searchBySerialNumber(serialNumber); //had issue where user couldn't enter y or n, but it's fixed 
 			break;
@@ -214,7 +222,7 @@ public class StoreManager {
 			break;
 			
 		case 4:
-			mainMenu(); //throw exception added here too
+			mainMenu(); 
 			break;
 			
 		default:
@@ -232,10 +240,12 @@ public class StoreManager {
 		int index = 0;
 		boolean duplicate = false;
 		
+		// for SN checking
 		serialNumber = null;
 		serialCheck = true;
 		serialLong = 0;
 		
+		// attributes of a toy
 		toyName = "";
 		toyBrand = "";
 		toyPrice = 0;
@@ -249,27 +259,30 @@ public class StoreManager {
 		animalSize = 'x';
 		puzzleType = 'x';
 		
+		// prompt for serial number 
 		appMenu.promptToySerialNumberAdd();
-//			input.nextLine(); // clear the buffer
 		do {
-			
 			while (!input.hasNextLong()) {
 				appMenu.invalidInput();
 				input.next(); //clearing the buffer
-//				System.out.println("Not a long");
 				appMenu.promptToySerialNumberAdd();		
 			}
+			
+			// flipped the order because if SN starts with 0, 0 gets deleted
+			
 			serialLong = input.nextLong();
 			serialNumber = Long.toString(serialLong);
+			
+//			serialNumber = Long.toString(serialLong);
 //			serialNumber = input.nextLine().trim();
 			
-			// make while loop to check for all ints 
+			// to check that serial number is ten digits long 
 			if (serialNumber.length() != 10) {
 				appMenu.invalidInput();
 				appMenu.promptToySerialNumberAdd();
 			}
 			else {
-				// SN duplicate check finished 
+				// to check if SN is taken by another toy
 				for(Toy toy: toyList) {
 					String currentToy = toy.getSerialNumber();
 					if (currentToy.equals(serialNumber)) {
@@ -300,8 +313,6 @@ public class StoreManager {
 		} while (toyName == null || toyName == "");
 		
 		// prompt toy brand 
-		
-	
 		do {
 			appMenu.promptToyBrand();
 			toyBrand = input.nextLine().trim();
@@ -313,14 +324,12 @@ public class StoreManager {
 			
 		} while (toyBrand == null || toyBrand == "");
 		
-		//INSERT TRY AND CATCH HERE FOR PRICE
-		//ask him about this if this is ok since he wants custom exceptions
 		
-		//need to do int check
-		
-		appMenu.promptToyPrice(); // this fully works 
+		// prompt toy price 
+		appMenu.promptToyPrice(); 
 		do {
 			toyPriceInput = input.nextLine().trim();
+			// custom exception for toy price check
 			try {
 				toyPrice = Double.parseDouble(toyPriceInput);
 			}
@@ -397,7 +406,6 @@ public class StoreManager {
 				}
 			} while (animalMaterial == null || animalMaterial == "");	
 			
-//			input.nextLine(); //clears the buffer, this one breaks a lot of stuff
 			appMenu.promptAnimalSize();
 			input.nextLine(); //clears the buffer
 
@@ -452,11 +460,7 @@ public class StoreManager {
 			
 		
 		//board games
-		
 		//for exception: https://www.baeldung.com/java-new-custom-exception
-		//if (player count problem) 
-		//throw new CustomException(error message)
-		
 		if (serialNumber.charAt(0) == '7' || serialNumber.charAt(0) == '8' || serialNumber.charAt(0) == '9') {
 			appMenu.promptBoardGameMinimumPlayers();
 			do {
@@ -467,46 +471,15 @@ public class StoreManager {
 				}
 			} while (minimumPlayers <= 0);
 
-//			appMenu.promptBoardGameMaximumPlayers();
-//			do {
-//				maximumPlayers = input.nextInt();
-//				if (maximumPlayers < minimumPlayers) {
-//					appMenu.invalidInput();
-//					appMenu.promptBoardGameMaximumPlayers();
-//				}
-//			} while (maximumPlayers < minimumPlayers);
-			// original while: maximumPlayers == 0 && maximumPlayers < minimumPlayers
-			
-			// ask him how to cast this 
+			// prompt for max player count
 			appMenu.promptBoardGameMaximumPlayers();
 			do {
 				maximumPlayers = input.nextInt();
 				try {
-					// print out what type of toy it is before hand 
-					// need to check for toy before hand, the cast from that toy to BoardGame 
-					// we cast grabbed toy back to orginal toy, then take that and cast it again to bg 
-//					System.out.println("min " + minimumPlayers);
-//					System.out.println("max " + maximumPlayers);
-					// will not work 
-					
-//					if (toy instanceof Animals) {
-//						
-//						
-//					}else if (toy instanceof BoardGames) {
-//						
-//						
-//					}else if (toy instanceof Figures) {
-//						
-//						
-//					}else if (toy instanceof Puzzles) {
-//						
-//					}
-					
-					// so this works
-					// might want to change the names here to what the user really put
+					// creating a new board game object to cast current values
+					// from there we can cast the toy to board games to do try and catch
 					Toy comparison = new BoardGames(serialNumber, toyName, toyBrand, toyPrice, availableCount, appropriateAge, minimumPlayers, maximumPlayers, "woody allen");
 				
-//					BoardGames boardGame = (BoardGames)toy;
 					BoardGames boardGame = (BoardGames)comparison;
 					boardGame.setMaxPlayerCount(maximumPlayers);
 				}catch (Exception e){
@@ -532,7 +505,6 @@ public class StoreManager {
 		try {
 			save();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println("We couldn't save your changes.");
 		}
 		
@@ -545,7 +517,6 @@ public class StoreManager {
 				try {
 					mainMenu();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					System.out.println("We couldn't send you back to the main menu.");
 				}
 		
@@ -561,18 +532,19 @@ public class StoreManager {
 		appMenu.promptToySerialNumberAdd();
 		input.nextLine(); //clears the buffer
 		do {
-			//needs validation for SN
+			//SN validation
 			
 			while (!input.hasNextLong()) {
 				appMenu.invalidInput();
 				input.next(); //clearing the buffer
-//				System.out.println("Not a long");
 				appMenu.promptToySerialNumberAdd();		
 			}
+			// long is used for user input validation
+			// string is used for comparison of toy list
 			serialLong = input.nextLong();
 			serialNumber = Long.toString(serialLong);
 			
-//			serialNumber = input.nextLine().trim();
+			// checking length of serial number
 			if (serialNumber.length() != 10) {
 				appMenu.invalidInput();
 				appMenu.promptToySerialNumberAdd();
@@ -583,7 +555,6 @@ public class StoreManager {
 			// serialNumber is input. currentToy is serialNumber in toyList.
 			for (index = 0; index < toyList.size(); index++) {
 				String currentToy = toyList.get(index).getSerialNumber();
-//				System.out.println(currentToy);
 				if (currentToy.equals(serialNumber)) {
 					System.out.println(toyList.get(index).toString());
 					currentToyFound = true;
@@ -600,7 +571,8 @@ public class StoreManager {
 			appMenu.removeMessage();
 			String userRemove = input.nextLine().toLowerCase();
 			
-			//validation for y or n 
+			// validation for y or n
+			// will prompt user until a valid input is received 
 			
 			while(!userRemove.equalsIgnoreCase("y") && !userRemove.equalsIgnoreCase("n")) {
 				appMenu.invalidInput();
@@ -615,52 +587,31 @@ public class StoreManager {
 			case "y":
 				// remove toy
 				toyList.remove(index);
-//				
-//				System.out.println("toy being removed is: " + toy);
-//				System.out.println("testing to remove first toy in list");
-//				System.out.println(toyList);
-				
 				appMenu.removeSuccess();
-//				System.out.println(toyList);
 				
-				//running a save 
-//				appMenu.saveMessage();
 			try {
 				save();
-//				appMenu.backToMainMenu();
-//				mainMenu();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				System.out.println("We couldn't save your changes.");
 			}
 				
 				break;
 			case "n":
 				appMenu.removeFail();
-//				try {
-//					appMenu.backToMainMenu();
-//					mainMenu();
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					System.out.println("We couldn't send you back to the main menu.");
-//				}
 				break;
 				
 			// user validation stuff for a non-"y/n" case
 			default:
 				appMenu.invalidInput();
-//				removeToy();
 				break;
 			}
-				
-			
+	
 		}
 		else {
 			appMenu.itemNotFound();
 		}
 		
 		// a press enter
-//		input.nextLine(); //buffer cleaner, remove me if we revert back to old remove style 
 		appMenu.pressEnter();
 		String userChoice;
 		do {
@@ -698,8 +649,8 @@ public class StoreManager {
 				break;
 			}
 		}
-		
-		if (itemFound == true) { //make a default here 
+		// item has been found, prompt purchase code
+		if (itemFound == true) { 
 			appMenu.removeMessage();
 			String userRemove = input.nextLine().toLowerCase();
 			
@@ -717,28 +668,19 @@ public class StoreManager {
 					//check quantity 
 					if (toyQuantity > 0) {
 						
-						//debugging
-//						System.out.println("We have this many in the system: " + toyQuantity);
-//						System.out.println("The toy you're purchasing is: " + toy.toString());
-						
-						// rewrite using setter? 
+						// rewrite the toy list using setter 
 						for (rewrite = 0; rewrite< toyList.size(); rewrite++) {
 							String activeToy = toyList.get(rewrite).getSerialNumber();
 							if (activeToy.equals(serialNumber)) {
 								toyList.get(rewrite).setAvailableCount(toyQuantity - 1);
 								
-								//debugging 
-//								int newQuantity = toyQuantity - 1;
-//								System.out.println("There are only this many left: " + newQuantity); 
+								// once we find the item in toys.txt the purchase has been successful
 								appMenu.purchaseSuccess();
 								
 								//is now inside because if there's zero toys why rewrite file
 								try {
 									save();
-			//						appMenu.backToMainMenu();
-			//						mainMenu();
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
 									System.out.println("We couldn't save your changes.");
 								}
 								break; // leaving this loop once we found the toy
@@ -751,6 +693,7 @@ public class StoreManager {
 	
 						break;
 				case "n":
+					// item was not purchased
 					appMenu.purchaseFail();
 					
 			}
@@ -769,7 +712,6 @@ public class StoreManager {
 				try {
 					searchInventory();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					System.out.println("We couldn't send you back to the search inventory menu.");
 				}
 	
@@ -906,7 +848,6 @@ public class StoreManager {
 		try {
 			searchInventory();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println("We couldn't send you back to the search inventory menu.");
 		}
 		
@@ -1079,7 +1020,6 @@ public class StoreManager {
 						try {
 							save();
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							System.out.println("We couldn't save your changes.");
 						}
 						break;
@@ -1111,7 +1051,6 @@ public class StoreManager {
 				try {
 					searchInventory();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					System.out.println("We couldn't send you back to the search inventory menu.");
 				}
 			
@@ -1141,18 +1080,11 @@ public class StoreManager {
 		String currentLine;
 		String[] splitLine;
 		
-//		try {
-//			File db = new File(FILE_PATH);
-//		}
-//		catch (FileNotFoundException e){
-//			System.out.println("File not found!");
-//		}
-		
+		// checking to see if file we write to exists 
 		if (db.exists()) {
 			Scanner fileReader = new Scanner(db);
 			while (fileReader.hasNextLine()) {
 				currentLine = fileReader.nextLine();
-//				currentLine = currentLine.toLowerCase(); //changes the file to lowercase on default
 				splitLine = currentLine.split(";");
 						
 				String serialNumber = splitLine[0];
