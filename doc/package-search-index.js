@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"mru.store.application"},{"l":"mru.store.controller"},{"l":"mru.store.model"},{"l":"mru.store.view"}];updateSearchResults();
